@@ -1,15 +1,12 @@
-import { Token } from '@pancakeswap/sdk'
 import { Box, Card, Text } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import PreviousBetsTable from '../PreviousBetsTable'
 
 interface DesktopBetsTableProps {
   account: string
-  token: Token
-  api: string
 }
 
-const DesktopBetsTable: React.FC<DesktopBetsTableProps> = ({ account, token, api }) => {
+const DesktopBetsTable: React.FC<DesktopBetsTableProps> = ({ account }) => {
   const { t } = useTranslation()
 
   return (
@@ -17,7 +14,9 @@ const DesktopBetsTable: React.FC<DesktopBetsTableProps> = ({ account, token, api
       <Text as="h5" color="secondary" fontWeight="bold" textTransform="uppercase" fontSize="12px" mb="16px">
         {t('Last %num% Bets', { num: 5 })}
       </Text>
-      <Card>{account && <PreviousBetsTable token={token} api={api} account={account} />}</Card>
+      <Card>
+        <PreviousBetsTable account={account} />
+      </Card>
     </Box>
   )
 }

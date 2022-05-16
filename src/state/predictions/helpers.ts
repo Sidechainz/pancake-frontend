@@ -17,6 +17,7 @@ import {
 import { multicallv2 } from 'utils/multicall'
 import { getPredictionsContract } from 'utils/contractHelpers'
 import predictionsAbi from 'config/abi/predictions.json'
+import { getPredictionsAddress } from 'utils/addressHelpers'
 import { Zero } from '@ethersproject/constants'
 import { PredictionsClaimableResponse, PredictionsLedgerResponse, PredictionsRoundsResponse } from 'utils/types'
 import {
@@ -239,14 +240,9 @@ export const getTotalWon = async (): Promise<number> => {
 
 type WhereClause = Record<string, string | number | boolean | string[]>
 
-export const getBetHistory = async (
-  where: WhereClause = {},
-  first = 1000,
-  skip = 0,
-  api: string,
-): Promise<BetResponse[]> => {
+export const getBetHistory = async (where: WhereClause = {}, first = 1000, skip = 0): Promise<BetResponse[]> => {
   const response = await request(
-    api,
+    GRAPH_API_PREDICTION,
     gql`
       query getBetHistory($first: Int!, $skip: Int!, $where: Bet_filter) {
         bets(first: $first, skip: $skip, where: $where, order: createdAt, orderDirection: desc) {
@@ -288,7 +284,8 @@ export const getBet = async (betId: string): Promise<BetResponse> => {
   return response.bet
 }
 
-export const getLedgerData = async (account: string, epochs: number[], address: string) => {
+export const getLedgerData = async (account: string, epochs: number[]) => {
+  const address = getPredictionsAddress()
   const ledgerCalls = epochs.map((epoch) => ({
     address,
     name: 'ledger',
@@ -326,13 +323,10 @@ export const getHasRoundFailed = (oracleCalled: boolean, closeTimestamp: number,
   return false
 }
 
-export const getPredictionUsers = async (
-  options: GetPredictionUsersOptions = {},
-  api: string,
-): Promise<UserResponse[]> => {
+export const getPredictionUsers = async (options: GetPredictionUsersOptions = {}): Promise<UserResponse[]> => {
   const { first, skip, where, orderBy, orderDir } = { ...defaultPredictionUserOptions, ...options }
   const response = await request(
-    api,
+    GRAPH_API_PREDICTION,
     gql`
       query getUsers($first: Int!, $skip: Int!, $where: User_filter, $orderBy: User_orderBy, $orderDir: OrderDirection) {
         users(first: $first, skip: $skip, where: $where, orderBy: $orderBy, orderDirection: $orderDir) {
@@ -345,9 +339,9 @@ export const getPredictionUsers = async (
   return response.users
 }
 
-export const getPredictionUser = async (account: string, api: string): Promise<UserResponse> => {
+export const getPredictionUser = async (account: string): Promise<UserResponse> => {
   const response = await request(
-    api,
+    GRAPH_API_PREDICTION,
     gql`
       query getUser($id: ID!) {
         user(id: $id) {
@@ -365,8 +359,8 @@ export const getPredictionUser = async (account: string, api: string): Promise<U
 export const getClaimStatuses = async (
   account: string,
   epochs: number[],
-  address: string,
 ): Promise<PredictionsState['claimableStatuses']> => {
+  const address = getPredictionsAddress()
   const claimableCalls = epochs.map((epoch) => ({
     address,
     name: 'claimable',
@@ -386,7 +380,8 @@ export const getClaimStatuses = async (
 }
 
 export type MarketData = Pick<PredictionsState, 'status' | 'currentEpoch' | 'intervalSeconds' | 'minBetAmount'>
-export const getPredictionData = async (address: string): Promise<MarketData> => {
+export const getPredictionData = async (): Promise<MarketData> => {
+  const address = getPredictionsAddress()
   const staticCalls = ['currentEpoch', 'intervalSeconds', 'minBetAmount', 'paused'].map((method) => ({
     address,
     name: method,
@@ -401,7 +396,8 @@ export const getPredictionData = async (address: string): Promise<MarketData> =>
   }
 }
 
-export const getRoundsData = async (epochs: number[], address: string): Promise<PredictionsRoundsResponse[]> => {
+export const getRoundsData = async (epochs: number[]): Promise<PredictionsRoundsResponse[]> => {
+  const address = getPredictionsAddress()
   const calls = epochs.map((epoch) => ({
     address,
     name: 'rounds',
@@ -529,9 +525,9 @@ export const parseBigNumberObj = <T = Record<string, any>, K = Record<string, an
   }, {}) as K
 }
 
-export const fetchUsersRoundsLength = async (account: string, address: string) => {
+export const fetchUsersRoundsLength = async (account: string) => {
   try {
-    const contract = getPredictionsContract(address)
+    const contract = getPredictionsContract()
     const length = await contract.getUserRoundsLength(account)
     return length
   } catch {
@@ -546,9 +542,8 @@ export const fetchUserRounds = async (
   account: string,
   cursor = 0,
   size = ROUNDS_PER_PAGE,
-  address,
 ): Promise<{ [key: string]: ReduxNodeLedger }> => {
-  const contract = getPredictionsContract(address)
+  const contract = getPredictionsContract()
 
   try {
     const [rounds, ledgers] = await contract.getUserRounds(account, cursor, size)

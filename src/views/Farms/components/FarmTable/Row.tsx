@@ -1,11 +1,10 @@
 import { useEffect, useState, createElement } from 'react'
 import styled from 'styled-components'
-import { useMatchBreakpoints, Flex } from '@pancakeswap/uikit'
+import { useMatchBreakpoints } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import useDelayedUnmount from 'hooks/useDelayedUnmount'
 import { useFarmUser } from 'state/farms/hooks'
 
-import { FarmAuctionTag, CoreTag } from 'components/Tags'
 import Apr, { AprProps } from './Apr'
 import Farm, { FarmProps } from './Farm'
 import Earned, { EarnedProps } from './Earned'
@@ -23,7 +22,6 @@ export interface RowProps {
   multiplier: MultiplierProps
   liquidity: LiquidityProps
   details: FarmWithStakedValue
-  type: 'core' | 'community'
 }
 
 interface RowPropsWithLoading extends RowProps {
@@ -101,14 +99,6 @@ const Row: React.FunctionComponent<RowPropsWithLoading> = (props) => {
             }
 
             switch (key) {
-              case 'type':
-                return (
-                  <td key={key}>
-                    <CellInner style={{ width: '100px' }}>
-                      {props[key] === 'community' ? <FarmAuctionTag scale="sm" /> : <CoreTag scale="sm" />}
-                    </CellInner>
-                  </td>
-                )
               case 'details':
                 return (
                   <td key={key}>
@@ -146,41 +136,36 @@ const Row: React.FunctionComponent<RowPropsWithLoading> = (props) => {
     }
 
     return (
-      <>
-        <tr style={{ cursor: 'pointer' }} onClick={toggleActionPanel}>
-          <FarmMobileCell colSpan={3}>
-            <Flex justifyContent="space-between" alignItems="center">
-              <Farm {...props.farm} />
-              {props.type === 'community' ? (
-                <FarmAuctionTag marginRight="16px" scale="sm" />
-              ) : (
-                <CoreTag marginRight="16px" scale="sm" />
-              )}
-            </Flex>
-          </FarmMobileCell>
-        </tr>
-        <StyledTr onClick={toggleActionPanel}>
-          <td width="33%">
+      <StyledTr onClick={toggleActionPanel}>
+        <td>
+          <tr>
+            <FarmMobileCell>
+              <CellLayout>
+                <Farm {...props.farm} />
+              </CellLayout>
+            </FarmMobileCell>
+          </tr>
+          <tr>
             <EarnedMobileCell>
               <CellLayout label={t('Earned')}>
                 <Earned {...props.earned} userDataReady={userDataReady} />
               </CellLayout>
             </EarnedMobileCell>
-          </td>
-          <td width="33%">
             <AprMobileCell>
               <CellLayout label={t('APR')}>
                 <Apr {...props.apr} hideButton />
               </CellLayout>
             </AprMobileCell>
-          </td>
-          <td width="33%">
-            <CellInner style={{ justifyContent: 'flex-end' }}>
+          </tr>
+        </td>
+        <td>
+          <CellInner>
+            <CellLayout>
               <Details actionPanelToggled={actionPanelExpanded} />
-            </CellInner>
-          </td>
-        </StyledTr>
-      </>
+            </CellLayout>
+          </CellInner>
+        </td>
+      </StyledTr>
     )
   }
 
@@ -189,7 +174,7 @@ const Row: React.FunctionComponent<RowPropsWithLoading> = (props) => {
       {handleRenderRow()}
       {shouldRenderChild && (
         <tr>
-          <td colSpan={7}>
+          <td colSpan={6}>
             <ActionPanel {...props} expanded={actionPanelExpanded} />
           </td>
         </tr>

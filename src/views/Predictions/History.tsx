@@ -6,7 +6,7 @@ import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from 'contexts/Localization'
 import { fetchNodeHistory } from 'state/predictions'
 import { getFilteredBets } from 'state/predictions/helpers'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
+import { useAppDispatch } from 'state'
 import {
   useGetCurrentEpoch,
   useGetCurrentHistoryPage,
@@ -47,7 +47,7 @@ const SpinnerWrapper = styled.div`
 
 const History = () => {
   const { account } = useWeb3React()
-  const dispatch = useLocalDispatch()
+  const dispatch = useAppDispatch()
   const isHistoryPaneOpen = useIsHistoryPaneOpen()
   const isFetchingHistory = useGetIsFetchingHistory()
   const historyFilter = useGetHistoryFilter()

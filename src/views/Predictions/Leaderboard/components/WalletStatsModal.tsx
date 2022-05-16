@@ -19,23 +19,20 @@ import useTheme from 'hooks/useTheme'
 import styled from 'styled-components'
 import { getBscScanLink } from 'utils'
 import truncateHash from 'utils/truncateHash'
-import { Token } from '@pancakeswap/sdk'
-
+import {
+  useGetOrFetchLeaderboardAddressResult,
+  useGetLeaderboardLoadingState,
+  useGetSelectedAddress,
+} from 'state/predictions/hooks'
 import { useTranslation } from 'contexts/Localization'
 import { FetchStatus } from 'config/constants/types'
-import { PredictionUser } from 'state/types'
-import { NetWinningsView } from './Results/styles'
+import { NetWinnings } from './Results/styles'
 import MobileBetsTable from './MobileBetsTable'
 import DesktopBetsTable from './Results/DesktopBetsTable'
 
 interface WalletStatsModalProps extends InjectedModalProps {
   account?: string
   onBeforeDismiss?: () => void
-  address: string
-  result: PredictionUser
-  leaderboardLoadingState: FetchStatus
-  token: Token
-  api: string
 }
 
 const ExternalLink = styled(LinkExternal)`
@@ -46,18 +43,14 @@ const ExternalLink = styled(LinkExternal)`
   }
 `
 
-const WalletStatsModal: React.FC<WalletStatsModalProps> = ({
-  result,
-  address,
-  leaderboardLoadingState,
-  onDismiss,
-  onBeforeDismiss,
-  token,
-  api,
-}) => {
+const WalletStatsModal: React.FC<WalletStatsModalProps> = ({ account, onDismiss, onBeforeDismiss }) => {
   const { t } = useTranslation()
   const { theme } = useTheme()
+  const selectedAddress = useGetSelectedAddress()
+  const address = account || selectedAddress
+  const result = useGetOrFetchLeaderboardAddressResult(address)
   const { profile } = useProfileForAddress(address)
+  const leaderboardLoadingState = useGetLeaderboardLoadingState()
   const isLoading = leaderboardLoadingState === FetchStatus.Fetching
   const { isDesktop } = useMatchBreakpoints()
 
@@ -109,8 +102,7 @@ const WalletStatsModal: React.FC<WalletStatsModalProps> = ({
               {isLoading ? (
                 <Skeleton />
               ) : (
-                <NetWinningsView
-                  token={token}
+                <NetWinnings
                   amount={result?.netBNB}
                   textPrefix={result?.netBNB > 0 ? '+' : ''}
                   textColor={result?.netBNB > 0 ? 'success' : 'failure'}
@@ -144,11 +136,7 @@ const WalletStatsModal: React.FC<WalletStatsModalProps> = ({
               {isLoading ? <Skeleton /> : <Text fontWeight="bold">{result?.totalBets?.toLocaleString()}</Text>}
             </Box>
           </Grid>
-          {isDesktop ? (
-            <DesktopBetsTable token={token} api={api} account={address} />
-          ) : (
-            <MobileBetsTable token={token} api={api} account={address} />
-          )}
+          {isDesktop ? <DesktopBetsTable account={address} /> : <MobileBetsTable account={address} />}
         </Box>
       )}
     </ModalContainer>

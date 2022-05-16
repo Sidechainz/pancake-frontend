@@ -8,7 +8,6 @@ import {
   fetchCakeVaultFees,
   fetchCakeVaultPublicData,
   fetchCakeVaultUserData,
-  fetchCakePoolPublicDataAsync,
 } from 'state/pools'
 import PoolsTable from './PoolTable'
 
@@ -28,7 +27,6 @@ const NewPool: React.FC = () => {
 
   useFastRefreshEffect(() => {
     dispatch(fetchCakeVaultPublicData())
-    dispatch(fetchCakePoolPublicDataAsync())
     if (account) {
       dispatch(fetchCakeVaultUserData({ account }))
       dispatch(fetchCakePoolUserDataAsync(account))

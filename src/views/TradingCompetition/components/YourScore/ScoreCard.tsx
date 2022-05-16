@@ -1,6 +1,4 @@
-import { ReactNode } from 'react'
 import styled from 'styled-components'
-import { StaticImageData } from 'next/dist/client/image'
 import {
   Card,
   CardBody,
@@ -16,11 +14,11 @@ import {
 import { CLAIM, OVER } from 'config/constants/trading-competition/phases'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import { useTranslation } from 'contexts/Localization'
+import { SubgraphHealthIndicator } from 'components/SubgraphHealthIndicator'
+import UserPrizeGrid from './UserPrizeGrid'
 import ClaimModal from '../ClaimModal'
-import CardUserInfo from './CardUserInfo'
-import ShareImageModal from '../ShareImageModal'
 import { YourScoreProps } from '../../types'
-import { SubgraphHealthIndicator } from '../../../../components/SubgraphHealthIndicator'
+import CardUserInfo from './CardUserInfo'
 
 const StyledCard = styled(Card)`
   ${({ theme }) => theme.mediaQueries.sm} {
@@ -50,21 +48,7 @@ const StyledButton = styled(Button)`
   }
 `
 
-interface ScoreCardProps extends YourScoreProps {
-  userPrizeGrid: ReactNode
-  flippersShareImage: StaticImageData
-  stormShareImage: StaticImageData
-  cakersShareImage: StaticImageData
-  extraUserRankBox?: ReactNode
-  subgraphName?: string
-}
-
-const ScoreCard: React.FC<ScoreCardProps> = ({
-  userPrizeGrid,
-  extraUserRankBox,
-  flippersShareImage,
-  stormShareImage,
-  cakersShareImage,
+const ScoreCard: React.FC<YourScoreProps> = ({
   hasRegistered,
   account,
   userTradingInformation,
@@ -76,7 +60,6 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
   finishedAndPrizesClaimed,
   finishedAndNothingToClaim,
   onClaimSuccess,
-  subgraphName,
 }) => {
   const { t } = useTranslation()
   const [onPresentClaimModal] = useModal(
@@ -113,23 +96,15 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
         ) : (
           <>
             <CardUserInfo
-              shareModal={
-                <ShareImageModal
-                  flippersShareImage={flippersShareImage}
-                  cakersShareImage={cakersShareImage}
-                  stormShareImage={stormShareImage}
-                  profile={profile}
-                  userLeaderboardInformation={userLeaderboardInformation}
-                />
-              }
-              extraUserRankBox={extraUserRankBox}
               hasRegistered={hasRegistered}
               account={account}
               profile={profile}
               userLeaderboardInformation={userLeaderboardInformation}
               currentPhase={currentPhase}
             />
-            {hasRegistered && (currentPhase.state === CLAIM || currentPhase.state === OVER) && userPrizeGrid}
+            {hasRegistered && (currentPhase.state === CLAIM || currentPhase.state === OVER) && (
+              <UserPrizeGrid userTradingInformation={userTradingInformation} />
+            )}
             {!account && (
               <Flex mt="24px" justifyContent="center">
                 <ConnectWalletButton />
@@ -147,10 +122,10 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
           <LaurelRightIcon />
         </StyledCardFooter>
       )}
-      {subgraphName && hasRegistered && (
+      {hasRegistered && (
         <Flex p="16px" justifyContent="flex-end">
           <SubgraphHealthIndicator
-            subgraphName={subgraphName}
+            subgraphName="pancakeswap/trading-competition-v3"
             inline
             obeyGlobalSetting={false}
             customDescriptions={{

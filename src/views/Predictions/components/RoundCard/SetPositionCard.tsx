@@ -9,7 +9,6 @@ import {
   IconButton,
   Button,
   BinanceIcon,
-  LogoIcon,
   Text,
   BalanceInput,
   Slider,
@@ -29,14 +28,8 @@ import useCatchTxError from 'hooks/useCatchTxError'
 import { BetPosition } from 'state/types'
 import { formatBigNumber, formatFixedNumber } from 'utils/formatBalance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { useConfig } from 'views/Predictions/context/ConfigProvider'
 import PositionTag from '../PositionTag'
 import FlexRow from '../FlexRow'
-
-const LOGOS = {
-  BNB: BinanceIcon,
-  CAKE: LogoIcon,
-}
 
 interface SetPositionCardProps {
   position: BetPosition
@@ -84,8 +77,7 @@ const SetPositionCard: React.FC<SetPositionCardProps> = ({ position, togglePosit
   const { t } = useTranslation()
   const { fetchWithCatchTxError, loading: isTxPending } = useCatchTxError()
   const { callWithGasPrice } = useCallWithGasPrice()
-  const { address: predictionsAddress, token } = useConfig()
-  const predictionsContract = usePredictionsContract(predictionsAddress)
+  const predictionsContract = usePredictionsContract()
 
   const maxBalance = useMemo(() => {
     return bnbBalance.gt(dust) ? bnbBalance.sub(dust) : Zero
@@ -151,19 +143,15 @@ const SetPositionCard: React.FC<SetPositionCardProps> = ({ position, togglePosit
     const hasSufficientBalance = inputAmount.gt(0) && inputAmount.lte(maxBalance)
 
     if (!hasSufficientBalance) {
-      setErrorMessage(t('Insufficient %symbol% balance', { symbol: token.symbol }))
+      setErrorMessage(t('Insufficient BNB balance'))
     } else if (inputAmount.gt(0) && inputAmount.lt(minBetAmount)) {
       setErrorMessage(
-        t('A minimum amount of %num% %token% is required', { num: formatBigNumber(minBetAmount), token: token.symbol }),
+        t('A minimum amount of %num% %token% is required', { num: formatBigNumber(minBetAmount), token: 'BNB' }),
       )
     } else {
       setErrorMessage(null)
     }
-  }, [value, maxBalance, minBetAmount, setErrorMessage, t, token.symbol])
-
-  const Logo = useMemo(() => {
-    return LOGOS[token.symbol]
-  }, [token.symbol])
+  }, [value, maxBalance, minBetAmount, setErrorMessage, t])
 
   return (
     <Card>
@@ -186,9 +174,9 @@ const SetPositionCard: React.FC<SetPositionCardProps> = ({ position, togglePosit
             {t('Commit')}:
           </Text>
           <Flex alignItems="center">
-            <Logo mr="4px" />
+            <BinanceIcon mr="4px  " />
             <Text bold textTransform="uppercase">
-              {token.symbol}
+              BNB
             </Text>
           </Flex>
         </Flex>

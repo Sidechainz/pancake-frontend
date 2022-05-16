@@ -22,10 +22,8 @@ export const getActivePools = async (block?: number) => {
     address: getAddress(contractAddress),
     name: 'bonusEndBlock',
   }))
-  const [startBlocks, endBlocks] = await Promise.all([
-    multicall(sousChefV2, startBlockCalls),
-    multicall(sousChefV2, endBlockCalls),
-  ])
+  const startBlocks = await multicall(sousChefV2, startBlockCalls)
+  const endBlocks = await multicall(sousChefV2, endBlockCalls)
 
   return eligiblePools.reduce((accum, poolCheck, index) => {
     const startBlock = startBlocks[index] ? new BigNumber(startBlocks[index]) : null

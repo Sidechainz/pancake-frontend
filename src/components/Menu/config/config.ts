@@ -10,17 +10,12 @@ import {
   NftIcon,
   NftFillIcon,
   MoreIcon,
-  menuStatus,
 } from '@pancakeswap/uikit'
 import { ContextApi } from 'contexts/Localization/types'
 import { nftsBaseUrl } from 'views/Nft/market/constants'
 import { perpLangMap } from 'utils/getPerpetualLanguageCode'
-import { DropdownMenuItems } from '@pancakeswap/uikit/src/components/DropdownMenu/types'
 
-export type ConfigMenuDropDownItemsType = DropdownMenuItems & { hideSubNav?: boolean }
-export type ConfigMenuItemsType = Omit<MenuItemsType, 'items'> & { hideSubNav?: boolean } & {
-  items?: ConfigMenuDropDownItemsType[]
-}
+export type ConfigMenuItemsType = MenuItemsType & { hideSubNav?: boolean }
 
 const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType[] = (t, languageCode) => [
   {
@@ -42,11 +37,11 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         label: t('Liquidity'),
         href: '/liquidity',
       },
-      {
+      /* {
         label: t('Perpetual'),
         href: `https://perp.pancakeswap.finance/${perpLangMap(languageCode)}/futures/BTCUSDT`,
         type: DropdownMenuItemType.EXTERNAL_LINK,
-      },
+      }, */
     ],
   },
   {
@@ -65,7 +60,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
       },
     ],
   },
-  {
+  /*  {
     label: t('Win'),
     href: '/prediction',
     icon: TrophyIcon,
@@ -74,8 +69,6 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
       {
         label: t('Trading Competition'),
         href: '/competition',
-        hideSubNav: true,
-        status: menuStatus.SOON,
       },
       {
         label: t('Prediction (BETA)'),
@@ -86,8 +79,8 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         href: '/lottery',
       },
     ],
-  },
-  {
+  }, */
+  /*  {
     label: t('NFT'),
     href: `${nftsBaseUrl}`,
     icon: NftIcon,
@@ -106,7 +99,7 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         href: `${nftsBaseUrl}/activity`,
       },
     ],
-  },
+  }, */
   {
     label: '',
     href: '/info',
@@ -117,21 +110,21 @@ const config: (t: ContextApi['t'], languageCode?: string) => ConfigMenuItemsType
         label: t('Info'),
         href: '/info',
       },
-      {
+      /* {
         label: t('IFO'),
         href: '/ifo',
-      },
-      {
+      }, */
+      /* {
         label: t('Voting'),
         href: '/voting',
-      },
+      }, */
       {
         type: DropdownMenuItemType.DIVIDER,
       },
-      {
+      /*  {
         label: t('Leaderboard'),
         href: '/teams',
-      },
+      }, */
       {
         type: DropdownMenuItemType.DIVIDER,
       },

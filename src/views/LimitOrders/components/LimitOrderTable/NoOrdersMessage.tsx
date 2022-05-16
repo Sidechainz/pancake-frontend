@@ -8,7 +8,7 @@ const NoOrdersMessage: React.FC<{ orderCategory: ORDER_CATEGORY }> = ({ orderCat
 
   return (
     <Flex p="24px" justifyContent="center" alignItems="center" flexDirection="column">
-      <BunnyPlaceholderIcon width={64} />
+      {/*  <BunnyPlaceholderIcon width={64} /> */}
       <Text color="textDisabled">
         {orderCategory === ORDER_CATEGORY.Open ? t('No Open Orders') : t('No Order History')}
       </Text>

@@ -23,13 +23,13 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
     ],
     [chainId, currency, wrapped],
   )
-  const [[bnbPairState, bnbPair], [busdPairState, busdPair], [busdBnbPairState, busdBnbPair]] = usePairs(tokenPairs)
+  const [[ethPairState, ethPair], [busdPairState, busdPair], [busdEthPairState, busdEthPair]] = usePairs(tokenPairs)
 
   return useMemo(() => {
     if (!currency || !wrapped || !chainId) {
       return undefined
     }
-    // handle wbnb/bnb
+    // handle weth/eth
     if (wrapped.equals(WBNB)) {
       if (busdPair) {
         const price = busdPair.priceOf(WBNB)
@@ -42,27 +42,27 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
       return new Price(busd, busd, '1', '1')
     }
 
-    const bnbPairBNBAmount = bnbPair?.reserveOf(WBNB)
-    const bnbPairBNBBUSDValue: JSBI =
-      bnbPairBNBAmount && busdBnbPair ? busdBnbPair.priceOf(WBNB).quote(bnbPairBNBAmount).raw : JSBI.BigInt(0)
+    const ethPairETHAmount = ethPair?.reserveOf(WBNB)
+    const ethPairETHBUSDValue: JSBI =
+      ethPairETHAmount && busdEthPair ? busdEthPair.priceOf(WBNB).quote(ethPairETHAmount).raw : JSBI.BigInt(0)
 
     // all other tokens
     // first try the busd pair
-    if (busdPairState === PairState.EXISTS && busdPair && busdPair.reserveOf(busd).greaterThan(bnbPairBNBBUSDValue)) {
+    if (busdPairState === PairState.EXISTS && busdPair && busdPair.reserveOf(busd).greaterThan(ethPairETHBUSDValue)) {
       const price = busdPair.priceOf(wrapped)
       return new Price(currency, busd, price.denominator, price.numerator)
     }
-    if (bnbPairState === PairState.EXISTS && bnbPair && busdBnbPairState === PairState.EXISTS && busdBnbPair) {
-      if (busdBnbPair.reserveOf(busd).greaterThan('0') && bnbPair.reserveOf(WBNB).greaterThan('0')) {
-        const bnbBusdPrice = busdBnbPair.priceOf(busd)
-        const currencyBnbPrice = bnbPair.priceOf(WBNB)
-        const busdPrice = bnbBusdPrice.multiply(currencyBnbPrice).invert()
+    if (ethPairState === PairState.EXISTS && ethPair && busdEthPairState === PairState.EXISTS && busdEthPair) {
+      if (busdEthPair.reserveOf(busd).greaterThan('0') && ethPair.reserveOf(WBNB).greaterThan('0')) {
+        const ethBusdPrice = busdEthPair.priceOf(busd)
+        const currencyEthPrice = ethPair.priceOf(WBNB)
+        const busdPrice = ethBusdPrice.multiply(currencyEthPrice).invert()
         return new Price(currency, busd, busdPrice.denominator, busdPrice.numerator)
       }
     }
 
     return undefined
-  }, [chainId, currency, bnbPair, bnbPairState, busdBnbPair, busdBnbPairState, busdPair, busdPairState, wrapped])
+  }, [chainId, currency, ethPair, ethPairState, busdEthPair, busdEthPairState, busdPair, busdPairState, wrapped])
 }
 
 export const useCakeBusdPrice = (): Price | undefined => {

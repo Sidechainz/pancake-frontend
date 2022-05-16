@@ -123,8 +123,6 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
             totalValueFormatted={totalValueFormatted}
             lpLabel={lpLabel}
             addLiquidityUrl={addLiquidityUrl}
-            isCommunity={farm.isCommunity}
-            auctionHostingEndDate={farm.auctionHostingEndDate}
           />
         )}
       </ExpandingWrapper>

@@ -63,6 +63,7 @@ const PoolRow: React.FC<PoolRowProps> = ({ pool, account }) => {
         <ActionPanel
           account={account}
           pool={pool}
+          userDataLoaded
           expanded={expanded}
           breakpoints={{ isXs, isSm, isMd, isLg, isXl, isXxl }}
         />

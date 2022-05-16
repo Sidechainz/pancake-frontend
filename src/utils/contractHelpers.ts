@@ -18,9 +18,11 @@ import {
   getMasterChefV1Address,
   getPointCenterIfoAddress,
   getClaimRefundAddress,
-  getTradingCompetitionAddressEaster,
+  getTradingCompetitionAddress,
   getEasterNftAddress,
   getCakeVaultAddress,
+  getPredictionsAddress,
+  getChainlinkOracleAddress,
   getMulticallAddress,
   getBunnySpecialCakeVaultAddress,
   getBunnySpecialPredictionAddress,
@@ -30,9 +32,8 @@ import {
   getNftMarketAddress,
   getNftSaleAddress,
   getPancakeSquadAddress,
-  getTradingCompetitionAddressFanToken,
+  getTradingCompetitionAddressV2,
   getTradingCompetitionAddressMobox,
-  getTradingCompetitionAddressMoD,
   getBunnySpecialXmasAddress,
   getGalaxyNFTClaimingAddress,
 } from 'utils/addressHelpers'
@@ -56,10 +57,9 @@ import sousChef from 'config/abi/sousChef.json'
 import sousChefV2 from 'config/abi/sousChefV2.json'
 import sousChefBnb from 'config/abi/sousChefBnb.json'
 import claimRefundAbi from 'config/abi/claimRefund.json'
-import tradingCompetitionEasterAbi from 'config/abi/tradingCompetitionEaster.json'
-import tradingCompetitionFanTokenAbi from 'config/abi/tradingCompetitionFanToken.json'
+import tradingCompetitionAbi from 'config/abi/tradingCompetition.json'
+import tradingCompetitionV2Abi from 'config/abi/tradingCompetitionV2.json'
 import tradingCompetitionMoboxAbi from 'config/abi/tradingCompetitionMobox.json'
-import tradingCompetitionMoDAbi from 'config/abi/tradingCompetitionMoD.json'
 import easterNftAbi from 'config/abi/easterNft.json'
 import cakeVaultV2Abi from 'config/abi/cakeVaultV2.json'
 import predictionsAbi from 'config/abi/predictions.json'
@@ -99,8 +99,8 @@ import type {
   BunnySpecial,
   LpToken,
   ClaimRefund,
-  TradingCompetitionEaster,
-  TradingCompetitionFanToken,
+  TradingCompetition,
+  TradingCompetitionV2,
   EasterNft,
   Multicall,
   BunnySpecialCakeVault,
@@ -114,7 +114,6 @@ import type {
   PointCenterIfo,
   CakeVaultV2,
   TradingCompetitionMobox,
-  TradingCompetitionMoD,
 } from 'config/abi/types'
 
 export const getContract = (abi: any, address: string, signer?: Signer | Provider) => {
@@ -177,27 +176,15 @@ export const getMasterchefV1Contract = (signer?: Signer | Provider) => {
 export const getClaimRefundContract = (signer?: Signer | Provider) => {
   return getContract(claimRefundAbi, getClaimRefundAddress(), signer) as ClaimRefund
 }
-export const getTradingCompetitionContractEaster = (signer?: Signer | Provider) => {
-  return getContract(
-    tradingCompetitionEasterAbi,
-    getTradingCompetitionAddressEaster(),
-    signer,
-  ) as TradingCompetitionEaster
+export const getTradingCompetitionContract = (signer?: Signer | Provider) => {
+  return getContract(tradingCompetitionAbi, getTradingCompetitionAddress(), signer) as TradingCompetition
 }
 
-export const getTradingCompetitionContractFanToken = (signer?: Signer | Provider) => {
-  return getContract(
-    tradingCompetitionFanTokenAbi,
-    getTradingCompetitionAddressFanToken(),
-    signer,
-  ) as TradingCompetitionFanToken
+export const getTradingCompetitionContractV2 = (signer?: Signer | Provider) => {
+  return getContract(tradingCompetitionV2Abi, getTradingCompetitionAddressV2(), signer) as TradingCompetitionV2
 }
 export const getTradingCompetitionContractMobox = (signer?: Signer | Provider) => {
   return getContract(tradingCompetitionMoboxAbi, getTradingCompetitionAddressMobox(), signer) as TradingCompetitionMobox
-}
-
-export const getTradingCompetitionContractMoD = (signer?: Signer | Provider) => {
-  return getContract(tradingCompetitionMoDAbi, getTradingCompetitionAddressMoD(), signer) as TradingCompetitionMoD
 }
 
 export const getEasterNftContract = (signer?: Signer | Provider) => {
@@ -207,12 +194,12 @@ export const getCakeVaultV2Contract = (signer?: Signer | Provider) => {
   return getContract(cakeVaultV2Abi, getCakeVaultAddress(), signer) as CakeVaultV2
 }
 
-export const getPredictionsContract = (address: string, signer?: Signer | Provider) => {
-  return getContract(predictionsAbi, address, signer) as Predictions
+export const getPredictionsContract = (signer?: Signer | Provider) => {
+  return getContract(predictionsAbi, getPredictionsAddress(), signer) as unknown as Predictions
 }
 
-export const getChainlinkOracleContract = (address: string, signer?: Signer | Provider) => {
-  return getContract(chainlinkOracleAbi, address, signer) as ChainlinkOracle
+export const getChainlinkOracleContract = (signer?: Signer | Provider) => {
+  return getContract(chainlinkOracleAbi, getChainlinkOracleAddress(), signer) as ChainlinkOracle
 }
 export const getMulticallContract = () => {
   return getContract(MultiCallAbi, getMulticallAddress(), simpleRpcProvider) as Multicall

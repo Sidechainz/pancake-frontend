@@ -2,15 +2,8 @@ import { createAction } from '@reduxjs/toolkit'
 import { ChainId } from '@pancakeswap/sdk'
 import { Order } from '@gelatonetwork/limit-orders-lib'
 
-export type TransactionType =
-  | 'approve'
-  | 'swap'
-  | 'wrap'
-  | 'add-liquidity'
-  | 'remove-liquidity'
-  | 'limit-order-submission'
-  | 'limit-order-cancellation'
-  | 'limit-order-approval'
+// TODO: Add normal swaps and liquditiy transactions
+export type TransactionType = 'limit-order-submission' | 'limit-order-cancellation' | 'limit-order-approval'
 
 export interface SerializableTransactionReceipt {
   to: string

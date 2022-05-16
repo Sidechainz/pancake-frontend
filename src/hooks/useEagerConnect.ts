@@ -62,10 +62,14 @@ const useEagerConnect = () => {
         tryLogin(connectorId)
       }
     } else {
-      // Dapp browse will try login even is not authorized.
-      injected.isAuthorized().then(() => {
-        if (isMobile && window.ethereum) {
+      injected.isAuthorized().then((isAuthorized) => {
+        if (isAuthorized) {
           tryLogin(ConnectorNames.Injected)
+        } else {
+          // eslint-disable-next-line no-lonely-if
+          if (isMobile && window.ethereum) {
+            tryLogin(ConnectorNames.Injected)
+          }
         }
       })
     }

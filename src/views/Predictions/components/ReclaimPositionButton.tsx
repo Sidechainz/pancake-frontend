@@ -6,7 +6,6 @@ import useToast from 'hooks/useToast'
 import { useCallWithGasPrice } from 'hooks/useCallWithGasPrice'
 import useCatchTxError from 'hooks/useCatchTxError'
 import { ToastDescriptionWithTx } from 'components/Toast'
-import { useConfig } from '../context/ConfigProvider'
 
 interface ReclaimPositionButtonProps extends ButtonProps {
   epoch: number
@@ -16,8 +15,7 @@ interface ReclaimPositionButtonProps extends ButtonProps {
 
 const ReclaimPositionButton: React.FC<ReclaimPositionButtonProps> = ({ epoch, onSuccess, children, ...props }) => {
   const { t } = useTranslation()
-  const { address: predictionsAddress } = useConfig()
-  const predictionsContract = usePredictionsContract(predictionsAddress)
+  const predictionsContract = usePredictionsContract()
   const { callWithGasPrice } = useCallWithGasPrice()
   const { toastSuccess } = useToast()
   const { fetchWithCatchTxError, loading: isPendingTx } = useCatchTxError()

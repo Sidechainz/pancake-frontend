@@ -11,14 +11,13 @@ import {
 } from '@pancakeswap/uikit'
 import { getNow } from 'utils/getNow'
 import { useTranslation } from 'contexts/Localization'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
+import { useAppDispatch } from 'state'
 import { BetPosition, NodeLedger, NodeRound } from 'state/types'
 import { fetchLedgerData } from 'state/predictions'
 import { ROUND_BUFFER } from 'state/predictions/config'
 import useToast from 'hooks/useToast'
 import useTheme from 'hooks/useTheme'
 import { ToastDescriptionWithTx } from 'components/Toast'
-import { useConfig } from 'views/Predictions/context/ConfigProvider'
 import CardFlip from '../CardFlip'
 import { formatBnbv2 } from '../../helpers'
 import { RoundResultBox, PrizePoolRow } from '../RoundResult'
@@ -56,14 +55,13 @@ const OpenRoundCard: React.FC<OpenRoundCardProps> = ({
   const { theme } = useTheme()
   const { toastSuccess } = useToast()
   const { account } = useWeb3React()
-  const dispatch = useLocalDispatch()
-  const { token } = useConfig()
+  const dispatch = useAppDispatch()
   const { lockTimestamp } = round ?? { lockTimestamp: null }
   const { isSettingPosition, position } = state
   const [isBufferPhase, setIsBufferPhase] = useState(false)
   const positionDisplay = position === BetPosition.BULL ? t('Up').toUpperCase() : t('Down').toUpperCase()
   const { targetRef, tooltipVisible, tooltip } = useTooltip(
-    <div style={{ whiteSpace: 'nowrap' }}>{`${formatBnbv2(betAmount)} ${token.symbol}`}</div>,
+    <div style={{ whiteSpace: 'nowrap' }}>{`${formatBnbv2(betAmount)} BNB`}</div>,
     { placement: 'top' },
   )
 

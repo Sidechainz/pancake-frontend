@@ -6,9 +6,8 @@ import { CSSTransition } from 'react-transition-group'
 import { useTranslation } from 'contexts/Localization'
 import { getBetHistory } from 'state/predictions/helpers'
 import { useGetPredictionsStatus, useIsHistoryPaneOpen } from 'state/predictions/hooks'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
+import { useAppDispatch } from 'state'
 import { setHistoryPaneState } from 'state/predictions'
-import { useConfig } from '../context/ConfigProvider'
 
 /**
  * @see https://github.com/animate-css/animate.css/tree/main/source
@@ -127,8 +126,7 @@ const CollectWinningsPopup = () => {
   const { account } = useWeb3React()
   const predictionStatus = useGetPredictionsStatus()
   const isHistoryPaneOpen = useIsHistoryPaneOpen()
-  const dispatch = useLocalDispatch()
-  const { api } = useConfig()
+  const dispatch = useAppDispatch()
 
   const handleOpenHistory = () => {
     dispatch(setHistoryPaneState(true))
@@ -144,7 +142,7 @@ const CollectWinningsPopup = () => {
     let isCancelled = false
     if (account) {
       timer.current = setInterval(async () => {
-        const bets = await getBetHistory({ user: account.toLowerCase(), claimed: false }, undefined, undefined, api)
+        const bets = await getBetHistory({ user: account.toLowerCase(), claimed: false })
 
         if (!isCancelled) {
           // Filter out bets that were not winners
@@ -163,7 +161,7 @@ const CollectWinningsPopup = () => {
       clearInterval(timer.current)
       isCancelled = true
     }
-  }, [account, timer, predictionStatus, setIsOpen, isHistoryPaneOpen, api])
+  }, [account, timer, predictionStatus, setIsOpen, isHistoryPaneOpen])
 
   // Any time the history pane is open make sure the popup closes
   useEffect(() => {

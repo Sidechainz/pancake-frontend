@@ -10,7 +10,7 @@ import {
   HistoryIcon,
   IconButton,
 } from '@pancakeswap/uikit'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
+import { useAppDispatch } from 'state'
 import { PredictionStatus } from 'state/types'
 import { useGetPredictionsStatus, useIsChartPaneOpen, useIsHistoryPaneOpen } from 'state/predictions/hooks'
 import { setChartPaneState, setHistoryPaneState } from 'state/predictions'
@@ -55,7 +55,7 @@ const MobileMenu = () => {
   const isChartOpen = useIsChartPaneOpen()
   const status = useGetPredictionsStatus()
   const activeIndex = getActiveIndex(isHistoryOpen, isChartOpen)
-  const dispatch = useLocalDispatch()
+  const dispatch = useAppDispatch()
   const { account } = useWeb3React()
 
   const handleItemClick = (index: number) => {

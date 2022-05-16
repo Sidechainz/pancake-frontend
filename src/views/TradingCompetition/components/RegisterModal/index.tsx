@@ -28,7 +28,7 @@ const RegisterModal: React.FC<CompetitionProps> = ({ onDismiss, profile, onRegis
     }
 
     // Profile created and active
-    if (profile?.isActive) {
+    if (profile && profile.isActive) {
       return <RegisterWithProfile profile={profile} onDismiss={onDismiss} onRegisterSuccess={onRegisterSuccess} />
     }
 

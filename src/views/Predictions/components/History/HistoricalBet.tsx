@@ -13,7 +13,7 @@ import {
 } from '@pancakeswap/uikit'
 import { useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
+import { useAppDispatch } from 'state'
 import { Bet, PredictionStatus } from 'state/types'
 import { REWARD_RATE } from 'state/predictions/config'
 import { useGetCurrentEpoch, useGetIsClaimable, useGetPredictionsStatus } from 'state/predictions/hooks'
@@ -60,7 +60,7 @@ const HistoricalBet: React.FC<BetProps> = ({ bet }) => {
   const currentEpoch = useGetCurrentEpoch()
   const status = useGetPredictionsStatus()
   const canClaim = useGetIsClaimable(bet.round.epoch)
-  const dispatch = useLocalDispatch()
+  const dispatch = useAppDispatch()
   const { account } = useWeb3React()
 
   const toggleOpen = () => setIsOpen(!isOpen)

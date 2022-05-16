@@ -4,10 +4,6 @@ import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import { Box, Flex, Text, ChevronRightIcon, useModal } from '@pancakeswap/uikit'
 import Loading from 'components/Loading'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
-import { useCollectWinningModalProps } from 'state/predictions/hooks'
-import { useConfig } from 'views/Predictions/context/ConfigProvider'
-
 import CollectRoundWinningsModal from '../CollectRoundWinningsModal'
 import { getAllV1History } from './helpers'
 import NothingToClaimModal from './NothingToClaimModal'
@@ -25,20 +21,8 @@ const ClaimCheck = () => {
   const [isFetching, setIsFetching] = useState(false)
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const { history, isLoadingHistory } = useCollectWinningModalProps()
-  const dispatch = useLocalDispatch()
-  const { address: predictionsAddress, token } = useConfig()
 
-  const [onPresentCollectWinningsModal] = useModal(
-    <CollectRoundWinningsModal
-      predictionsAddress={predictionsAddress}
-      token={token}
-      dispatch={dispatch}
-      history={history}
-      isLoadingHistory={isLoadingHistory}
-    />,
-    false,
-  )
+  const [onPresentCollectWinningsModal] = useModal(<CollectRoundWinningsModal />, false)
 
   const [onPresentNothingToClaimModal] = useModal(<NothingToClaimModal />)
 

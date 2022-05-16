@@ -15,8 +15,8 @@ import {
   BetPosition,
   PredictionUser,
   LeaderboardFilter,
+  State,
   PredictionsChartView,
-  PredictionConfig,
 } from 'state/types'
 import { FetchStatus } from 'config/constants/types'
 import {
@@ -47,7 +47,7 @@ import {
 } from './helpers'
 import { resetUserState } from '../global/actions'
 
-export const initialState: PredictionsState = {
+const initialState: PredictionsState = {
   status: PredictionStatus.INITIAL,
   chartView: PredictionsChartView.Chainlink,
   isLoading: false,
@@ -86,18 +86,18 @@ type PredictionInitialization = Pick<
   PredictionsState,
   'status' | 'currentEpoch' | 'intervalSeconds' | 'minBetAmount' | 'rounds' | 'ledgers' | 'claimableStatuses'
 >
-export const initializePredictions = createAsyncThunk<PredictionInitialization, string, { extra: PredictionConfig }>(
+export const initializePredictions = createAsyncThunk<PredictionInitialization, string>(
   'predictions/initialize',
-  async (account = null, { extra }) => {
+  async (account = null) => {
     // Static values
-    const marketData = await getPredictionData(extra.address)
+    const marketData = await getPredictionData()
     const epochs =
       marketData.currentEpoch > PAST_ROUND_COUNT
         ? range(marketData.currentEpoch, marketData.currentEpoch - PAST_ROUND_COUNT)
         : [marketData.currentEpoch]
 
     // Round data
-    const roundsResponse = await getRoundsData(epochs, extra.address)
+    const roundsResponse = await getRoundsData(epochs)
     const initialRoundData: { [key: string]: ReduxNodeRound } = roundsResponse.reduce((accum, roundResponse) => {
       const reduxNodeRound = serializePredictionsRoundsResponse(roundResponse)
 
@@ -119,10 +119,10 @@ export const initializePredictions = createAsyncThunk<PredictionInitialization, 
     }
 
     // Bet data
-    const ledgerResponses = await getLedgerData(account, epochs, extra.address)
+    const ledgerResponses = await getLedgerData(account, epochs)
 
     // Claim statuses
-    const claimableStatuses = await getClaimStatuses(account, epochs, extra.address)
+    const claimableStatuses = await getClaimStatuses(account, epochs)
 
     return merge({}, initializedData, {
       ledgers: makeLedgerData(account, ledgerResponses, epochs),
@@ -131,13 +131,13 @@ export const initializePredictions = createAsyncThunk<PredictionInitialization, 
   },
 )
 
-export const fetchPredictionData = createAsyncThunk<PredictionInitialization, string, { extra: PredictionConfig }>(
+export const fetchPredictionData = createAsyncThunk<PredictionInitialization, string>(
   'predictions/fetchPredictionData',
-  async (account = null, { extra }) => {
-    const { status, currentEpoch, intervalSeconds, minBetAmount } = await getPredictionData(extra.address)
+  async (account = null) => {
+    const { status, currentEpoch, intervalSeconds, minBetAmount } = await getPredictionData()
     const liveCurrentAndRecent = [currentEpoch, currentEpoch - 1, currentEpoch - 2]
 
-    const roundsResponse = await getRoundsData(liveCurrentAndRecent, extra.address)
+    const roundsResponse = await getRoundsData(liveCurrentAndRecent)
     const roundData = roundsResponse.reduce((accum, round) => {
       if (!round) {
         return accum
@@ -169,10 +169,10 @@ export const fetchPredictionData = createAsyncThunk<PredictionInitialization, st
       currentEpoch > PAST_ROUND_COUNT ? range(currentEpoch, currentEpoch - PAST_ROUND_COUNT) : [currentEpoch]
 
     // Bet data
-    const ledgerResponses = await getLedgerData(account, epochs, extra.address)
+    const ledgerResponses = await getLedgerData(account, epochs)
 
     // Claim statuses
-    const claimableStatuses = await getClaimStatuses(account, epochs, extra.address)
+    const claimableStatuses = await getClaimStatuses(account, epochs)
 
     return merge({}, publicData, {
       ledgers: makeLedgerData(account, ledgerResponses, epochs),
@@ -181,40 +181,33 @@ export const fetchPredictionData = createAsyncThunk<PredictionInitialization, st
   },
 )
 
-export const fetchLedgerData = createAsyncThunk<
-  LedgerData,
-  { account: string; epochs: number[] },
-  { extra: PredictionConfig }
->('predictions/fetchLedgerData', async ({ account, epochs }, { extra }) => {
-  const ledgers = await getLedgerData(account, epochs, extra.address)
-  return makeLedgerData(account, ledgers, epochs)
-})
+export const fetchLedgerData = createAsyncThunk<LedgerData, { account: string; epochs: number[] }>(
+  'predictions/fetchLedgerData',
+  async ({ account, epochs }) => {
+    const ledgers = await getLedgerData(account, epochs)
+    return makeLedgerData(account, ledgers, epochs)
+  },
+)
 
-export const fetchHistory = createAsyncThunk<
-  { account: string; bets: Bet[] },
-  { account: string; claimed?: boolean },
-  { extra: PredictionConfig }
->('predictions/fetchHistory', async ({ account, claimed }, { extra }) => {
-  const response = await getBetHistory(
-    {
+export const fetchHistory = createAsyncThunk<{ account: string; bets: Bet[] }, { account: string; claimed?: boolean }>(
+  'predictions/fetchHistory',
+  async ({ account, claimed }) => {
+    const response = await getBetHistory({
       user: account.toLowerCase(),
       claimed,
-    },
-    undefined,
-    undefined,
-    extra.api,
-  )
-  const bets = response.map(transformBetResponse)
+    })
+    const bets = response.map(transformBetResponse)
 
-  return { account, bets }
-})
+    return { account, bets }
+  },
+)
 
 export const fetchNodeHistory = createAsyncThunk<
   { bets: Bet[]; claimableStatuses: PredictionsState['claimableStatuses']; page?: number; totalHistory: number },
   { account: string; page?: number },
-  { state: PredictionsState; extra: PredictionConfig }
->('predictions/fetchNodeHistory', async ({ account, page = 1 }, { getState, extra }) => {
-  const userRoundsLength = await fetchUsersRoundsLength(account, extra.address)
+  { state: State }
+>('predictions/fetchNodeHistory', async ({ account, page = 1 }, { getState }) => {
+  const userRoundsLength = await fetchUsersRoundsLength(account)
   const emptyResult = { bets: [], claimableStatuses: {}, totalHistory: userRoundsLength.toNumber() }
   const maxPages = userRoundsLength.lte(ROUNDS_PER_PAGE) ? 1 : Math.ceil(userRoundsLength.toNumber() / ROUNDS_PER_PAGE)
 
@@ -235,17 +228,16 @@ export const fetchNodeHistory = createAsyncThunk<
           .sub(ROUNDS_PER_PAGE * (page - 1)) // Previous page's cursor
           .toNumber()
       : ROUNDS_PER_PAGE
-  const userRounds = await fetchUserRounds(account, cursor.lt(0) ? 0 : cursor.toNumber(), size, extra.address)
+  const userRounds = await fetchUserRounds(account, cursor.lt(0) ? 0 : cursor.toNumber(), size)
 
   if (!userRounds) {
     return emptyResult
   }
 
   const epochs = Object.keys(userRounds).map((epochStr) => Number(epochStr))
-  const roundData = await getRoundsData(epochs, extra.address)
-  const claimableStatuses = await getClaimStatuses(account, epochs, extra.address)
-  // No need getState().predictions in local redux state
-  const { bufferSeconds } = getState()
+  const roundData = await getRoundsData(epochs)
+  const claimableStatuses = await getClaimStatuses(account, epochs)
+  const { bufferSeconds } = getState().predictions
 
   // Turn the data from the node into a Bet object that comes from the graph
   const bets: Bet[] = roundData.reduce((accum, round) => {
@@ -315,29 +307,25 @@ export const fetchNodeHistory = createAsyncThunk<
 })
 
 // Leaderboard
-export const filterLeaderboard = createAsyncThunk<
-  { results: PredictionUser[] },
-  { filters: LeaderboardFilter },
-  { extra: PredictionConfig }
->('predictions/filterLeaderboard', async ({ filters }, { extra }) => {
-  const usersResponse = await getPredictionUsers(
-    {
+export const filterLeaderboard = createAsyncThunk<{ results: PredictionUser[] }, { filters: LeaderboardFilter }>(
+  'predictions/filterLeaderboard',
+  async ({ filters }) => {
+    const usersResponse = await getPredictionUsers({
       skip: 0,
       orderBy: filters.orderBy,
       where: { totalBets_gte: LEADERBOARD_MIN_ROUNDS_PLAYED, [`${filters.orderBy}_gt`]: 0 },
-    },
-    extra.api,
-  )
+    })
 
-  return { results: usersResponse.map(transformUserResponse) }
-})
+    return { results: usersResponse.map(transformUserResponse) }
+  },
+)
 
 export const fetchAddressResult = createAsyncThunk<
   { account: string; data: PredictionUser },
   string,
-  { rejectValue: string; extra: PredictionConfig }
->('predictions/fetchAddressResult', async (account, { rejectWithValue, extra }) => {
-  const userResponse = await getPredictionUser(account, extra.api)
+  { rejectValue: string }
+>('predictions/fetchAddressResult', async (account, { rejectWithValue }) => {
+  const userResponse = await getPredictionUser(account)
 
   if (!userResponse) {
     return rejectWithValue(account)
@@ -349,17 +337,14 @@ export const fetchAddressResult = createAsyncThunk<
 export const filterNextPageLeaderboard = createAsyncThunk<
   { results: PredictionUser[]; skip: number },
   number,
-  { state: PredictionsState; extra: PredictionConfig }
->('predictions/filterNextPageLeaderboard', async (skip, { getState, extra }) => {
+  { state: State }
+>('predictions/filterNextPageLeaderboard', async (skip, { getState }) => {
   const state = getState()
-  const usersResponse = await getPredictionUsers(
-    {
-      skip,
-      orderBy: state.leaderboard.filters.orderBy,
-      where: { totalBets_gte: LEADERBOARD_MIN_ROUNDS_PLAYED, [`${state.leaderboard.filters.orderBy}_gt`]: 0 },
-    },
-    extra.api,
-  )
+  const usersResponse = await getPredictionUsers({
+    skip,
+    orderBy: state.predictions.leaderboard.filters.orderBy,
+    where: { totalBets_gte: LEADERBOARD_MIN_ROUNDS_PLAYED, [`${state.predictions.leaderboard.filters.orderBy}_gt`]: 0 },
+  })
 
   return { results: usersResponse.map(transformUserResponse), skip }
 })

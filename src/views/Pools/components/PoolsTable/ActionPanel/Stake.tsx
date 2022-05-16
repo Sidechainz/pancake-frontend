@@ -50,9 +50,10 @@ const IconButtonWrapper = styled.div`
 
 interface StackedActionProps {
   pool: DeserializedPool
+  userDataLoaded: boolean
 }
 
-const Staked: React.FunctionComponent<StackedActionProps> = ({ pool }) => {
+const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoaded }) => {
   const {
     sousId,
     stakingToken,
@@ -64,7 +65,6 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool }) => {
     stakingTokenPrice,
     vaultKey,
     profileRequirement,
-    userDataLoaded,
   } = pool
   const { t } = useTranslation()
   const { account } = useWeb3React()

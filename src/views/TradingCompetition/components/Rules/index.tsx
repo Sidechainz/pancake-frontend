@@ -29,9 +29,7 @@ const Rules = () => {
       <StyledCardWrapper>
         <RulesCard title={t('Trade to increase your rank')}>
           <Text textAlign="center" fontSize="14px" color="textSubtle">
-            {t(
-              'Eligible pairs: DAR/BNB, CAKE/BNB, and CAKE/BUSD. Please note that the volume from limit orders will not be indexed.',
-            )}
+            {t('Eligible pairs: MBOX/BNB, MBOX/BUSD, CAKE/BNB and CAKE/BUSD')}
           </Text>
         </RulesCard>
         <RulesCard title={t('Play as a team')}>

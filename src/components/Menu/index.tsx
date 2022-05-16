@@ -4,7 +4,7 @@ import { NextLinkFromReactRouter } from 'components/NextLink'
 import { Menu as UikitMenu } from '@pancakeswap/uikit'
 import { languageList } from 'config/localization/languages'
 import { useTranslation } from 'contexts/Localization'
-import PhishingWarningBanner from 'components/PhishingWarningBanner'
+/* import PhishingWarningBanner from 'components/PhishingWarningBanner' */
 import useTheme from 'hooks/useTheme'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import { usePhishingBannerManager } from 'state/user/hooks'
@@ -37,7 +37,7 @@ const Menu = (props) => {
       }}
       userMenu={<UserMenu />}
       globalMenu={<GlobalSettings />}
-      banner={showPhishingWarningBanner && typeof window !== 'undefined' && <PhishingWarningBanner />}
+      /*  banner={showPhishingWarningBanner && typeof window !== 'undefined' && <PhishingWarningBanner />} */
       isDark={isDark}
       toggleTheme={toggleTheme}
       currentLang={currentLanguage.code}
@@ -45,7 +45,7 @@ const Menu = (props) => {
       setLang={setLanguage}
       cakePriceUsd={cakePriceUsd.toNumber()}
       links={menuItems}
-      subLinks={activeMenuItem?.hideSubNav || activeSubMenuItem?.hideSubNav ? [] : activeMenuItem?.items}
+      subLinks={activeMenuItem?.hideSubNav ? [] : activeMenuItem?.items}
       footerLinks={footerLinks(t)}
       activeItem={activeMenuItem?.href}
       activeSubItem={activeSubMenuItem?.href}

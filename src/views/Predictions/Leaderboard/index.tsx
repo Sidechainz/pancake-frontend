@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
+import { useAppDispatch } from 'state'
 import { useGetLeaderboardFilters, useGetLeaderboardLoadingState } from 'state/predictions/hooks'
 import { filterLeaderboard } from 'state/predictions'
 import PageLoader from 'components/Loader/PageLoader'
@@ -15,7 +15,7 @@ const Leaderboard = () => {
   const leaderboardLoadingState = useGetLeaderboardLoadingState()
   const filters = useGetLeaderboardFilters()
   const { account } = useWeb3React()
-  const dispatch = useLocalDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(filterLeaderboard({ filters }))

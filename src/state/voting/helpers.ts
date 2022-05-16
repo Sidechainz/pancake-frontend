@@ -1,5 +1,3 @@
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-restricted-syntax */
 import { SNAPSHOT_API } from 'config/constants/endpoints'
 import request, { gql } from 'graphql-request'
 import { getVotingPowerByCakeStrategy } from 'views/Voting/helpers'
@@ -115,21 +113,10 @@ export const getAllVotes = async (proposal: Proposal, votesPerChunk = 30000): Pr
     fetchVoteChunk(0)
   })
 
-  const voterChunk = _chunk(
+  const votingPowers = await getVotingPowerByCakeStrategy(
     voters.map((v) => v.voter),
-    600,
+    parseInt(proposal.snapshot),
   )
-
-  let votingPowers = {}
-
-  const vps = await Promise.all(voterChunk.map((v) => getVotingPowerByCakeStrategy(v, parseInt(proposal.snapshot))))
-
-  for (const vp of vps) {
-    votingPowers = {
-      ...votingPowers,
-      ...vp,
-    }
-  }
 
   return voters.map((v) => ({
     ...v,

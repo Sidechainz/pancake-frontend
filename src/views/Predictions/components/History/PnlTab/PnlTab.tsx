@@ -6,11 +6,9 @@ import { getRoundResult, Result } from 'state/predictions/helpers'
 import { REWARD_RATE } from 'state/predictions/config'
 import { getBscScanLink } from 'utils'
 import { multiplyPriceByAmount } from 'utils/prices'
-import useBUSDPrice from 'hooks/useBUSDPrice'
+import { useBNBBusdPrice } from 'hooks/useBUSDPrice'
 import { useGetCurrentEpoch } from 'state/predictions/hooks'
 import { Bet, BetPosition } from 'state/types'
-import { useConfig } from 'views/Predictions/context/ConfigProvider'
-
 import { formatBnb, getMultiplier, getNetPayout } from '../helpers'
 import PnlChart from './PnlChart'
 import SummaryRow from './SummaryRow'
@@ -106,8 +104,7 @@ const PnlTab: React.FC<PnlTabProps> = ({ hasBetHistory, bets }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const currentEpoch = useGetCurrentEpoch()
-  const { token } = useConfig()
-  const bnbBusdPrice = useBUSDPrice(token)
+  const bnbBusdPrice = useBNBBusdPrice()
 
   const summary = getPnlSummary(bets, currentEpoch)
 
@@ -137,7 +134,7 @@ const PnlTab: React.FC<PnlTabProps> = ({ hasBetHistory, bets }) => {
             {t('Net results')}
           </Text>
           <Text bold fontSize="24px" lineHeight="1" color={netResultIsPositive ? 'success' : 'failure'}>
-            {`${netResultIsPositive ? '+' : ''}${formatBnb(netResultAmount)} ${token.symbol}`}
+            {`${netResultIsPositive ? '+' : ''}${formatBnb(netResultAmount)} BNB`}
           </Text>
           <Text small color="textSubtle">
             {`~$${netResultInUsd.toFixed(2)}`}
@@ -149,7 +146,7 @@ const PnlTab: React.FC<PnlTabProps> = ({ hasBetHistory, bets }) => {
           {t('Average return / round')}
         </Text>
         <Text bold color={avgBnbWonIsPositive ? 'success' : 'failure'}>
-          {`${avgBnbWonIsPositive ? '+' : ''}${formatBnb(avgBnbWonPerRound)} ${token.symbol}`}
+          {`${avgBnbWonIsPositive ? '+' : ''}${formatBnb(avgBnbWonPerRound)} BNB`}
         </Text>
         <Text small color="textSubtle">
           {`~$${avgBnbWonInUsd.toFixed(2)}`}
@@ -161,7 +158,7 @@ const PnlTab: React.FC<PnlTabProps> = ({ hasBetHistory, bets }) => {
               {t('Best round: #%roundId%', { roundId: summary.won.bestRound.id })}
             </Text>
             <Flex alignItems="flex-end">
-              <Text bold color="success">{`+${formatBnb(summary.won.bestRound.payout)} ${token.symbol}`}</Text>
+              <Text bold color="success">{`+${formatBnb(summary.won.bestRound.payout)} BNB`}</Text>
               <Text ml="4px" small color="textSubtle">
                 ({summary.won.bestRound.multiplier.toFixed(2)}x)
               </Text>
@@ -175,7 +172,7 @@ const PnlTab: React.FC<PnlTabProps> = ({ hasBetHistory, bets }) => {
         <Text mt="16px" bold color="textSubtle">
           {t('Average position entered / round')}
         </Text>
-        <Text bold>{`${formatBnb(avgPositionEntered)} ${token.symbol}`}</Text>
+        <Text bold>{`${formatBnb(avgPositionEntered)} BNB`}</Text>
         <Text small color="textSubtle">
           {`~$${avgPositionEnteredInUsd.toFixed(2)}`}
         </Text>

@@ -1,14 +1,13 @@
 import { ChainId } from '@pancakeswap/sdk'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
-import { farmsConfig, SLOW_INTERVAL } from 'config/constants'
+import { farmsConfig } from 'config/constants'
 import { CHAIN_ID } from 'config/constants/networks'
-import { useFastRefreshEffect } from 'hooks/useRefreshEffect'
-import useSWRImmutable from 'swr/immutable'
+import { useFastRefreshEffect, useSlowRefreshEffect } from 'hooks/useRefreshEffect'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from 'state'
-import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync, fetchFarmsAuctionDataAsync } from '.'
+import { fetchFarmsPublicDataAsync, fetchFarmUserDataAsync } from '.'
 import { DeserializedFarm, DeserializedFarmsState, DeserializedFarmUserData, State } from '../types'
 import {
   farmSelector,
@@ -19,32 +18,20 @@ import {
   makeLpTokenPriceFromLpSymbolSelector,
   makeFarmFromPidSelector,
 } from './selectors'
-import { useInitialBlock } from '../block/hooks'
 
 export const usePollFarmsWithUserData = () => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
-  const initialBlock = useInitialBlock()
 
-  const { data: auctionData } = useSWRImmutable(initialBlock ? ['farmsAuctionData'] : null, async () => {
-    return dispatch(fetchFarmsAuctionDataAsync(initialBlock))
-  })
+  useSlowRefreshEffect(() => {
+    const pids = farmsConfig.map((farmToFetch) => farmToFetch.pid)
 
-  useSWRImmutable(
-    auctionData ? ['farmsWithUserData', account] : null,
-    () => {
-      const pids = farmsConfig.map((farmToFetch) => farmToFetch.pid)
+    dispatch(fetchFarmsPublicDataAsync(pids))
 
-      dispatch(fetchFarmsPublicDataAsync(pids))
-
-      if (account) {
-        dispatch(fetchFarmUserDataAsync({ account, pids }))
-      }
-    },
-    {
-      refreshInterval: SLOW_INTERVAL,
-    },
-  )
+    if (account) {
+      dispatch(fetchFarmUserDataAsync({ account, pids }))
+    }
+  }, [dispatch, account])
 }
 
 /**

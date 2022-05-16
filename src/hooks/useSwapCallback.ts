@@ -140,7 +140,6 @@ export function useSwapCallback(
 
             addTransaction(response, {
               summary: withRecipient,
-              type: 'swap',
             })
 
             return response.hash

@@ -11,7 +11,11 @@ import { DeserializedPool } from 'state/types'
 import { ActionContainer, ActionTitles, ActionContent } from './styles'
 import CollectModal from '../../PoolCard/Modals/CollectModal'
 
-const HarvestAction: React.FunctionComponent<DeserializedPool> = ({
+interface HarvestActionProps extends DeserializedPool {
+  userDataLoaded: boolean
+}
+
+const HarvestAction: React.FunctionComponent<HarvestActionProps> = ({
   sousId,
   poolCategory,
   earningToken,

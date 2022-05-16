@@ -3,7 +3,7 @@ import { Button, useModal, Skeleton } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
 import { differenceInSeconds } from 'date-fns'
 import { convertTimeToSeconds } from 'utils/timeHelper'
-import { usePool } from 'state/pools/hooks'
+import { usePoolsWithVault } from 'state/pools/hooks'
 import AddAmountModal from '../Modals/AddAmountModal'
 import { AddButtonProps } from '../types'
 import NotEnoughTokensModal from '../../PoolCard/Modals/NotEnoughTokensModal'
@@ -16,9 +16,7 @@ const AddCakeButton: React.FC<AddButtonProps> = ({
   lockStartTime,
   stakingTokenBalance,
 }) => {
-  const {
-    pool: { userDataLoaded },
-  } = usePool(0)
+  const { userDataLoaded } = usePoolsWithVault()
 
   const { t } = useTranslation()
   const remainingDuration = useMemo(

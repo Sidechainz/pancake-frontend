@@ -43,20 +43,16 @@ export default {
     56: '0xFee8A195570a18461146F401d6033f5ab3380849',
     97: '0x7b7b1583De1DeB32Ce6605F6deEbF24A0671c17C',
   },
-  tradingCompetitionEaster: {
+  tradingCompetition: {
     56: '0xd718baa0B1F4f70dcC8458154042120FFE0DEFFA',
     97: '0xC787F45B833721ED3aC46E99b703B3E1E01abb97',
   },
-  tradingCompetitionFanToken: {
+  tradingCompetitionV2: {
     56: '0xA8FECf847e28aa1Df39E995a45b7FCfb91b676d4',
     97: '',
   },
   tradingCompetitionMobox: {
     56: '0x1C5161CdB145dE35a8961F82b065fd1F75C3BaDf',
-    97: '',
-  },
-  tradingCompetitionMoD: {
-    56: '0x9F9b4728Cff3eb28aA8dC21482D3b542e4c6d039',
     97: '',
   },
   easterNft: {

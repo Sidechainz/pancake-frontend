@@ -1,17 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { StaticImageData } from 'next/dist/client/image'
-import { Flex, Heading, useMatchBreakpoints } from '@pancakeswap/uikit'
-import { NextLinkFromReactRouter } from 'components/NextLink'
-import Image from 'next/image'
+import { Flex, Heading } from '@pancakeswap/uikit'
 
 const Wrapper = styled(Flex)<{ background: string }>`
   position: relative;
   border-radius: 32px;
   background: ${({ background }) => background};
-  ${({ theme }) => theme.mediaQueries.md} {
-    width: 65%;
-  }
+  width: 90%;
   max-height: 192px;
   overflow: hidden;
   padding: 24px;
@@ -33,20 +28,11 @@ const LeftWrapper = styled(Flex)`
 `
 
 const RightWrapper = styled.div`
-  position: absolute;
-  right: 0;
-  bottom: -8px;
-  ${({ theme }) => theme.mediaQueries.sm} {
-    right: 1px;
-    bottom: 1px;
-  }
-  ${({ theme }) => theme.mediaQueries.md} {
-    right: 0px;
-    bottom: 8px;
-  }
-  ${({ theme }) => theme.mediaQueries.lg} {
-    right: 0px;
-    bottom: -5px;
+  img {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    right: 2rem;
   }
 `
 
@@ -54,6 +40,7 @@ const CompetitionTitle = styled(Heading)`
   background: ${({ theme }) => theme.colors.gradients.gold};
   font-size: 24px;
   font-weight: 600;
+  max-width: 50%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke-width: 1.2px;
@@ -61,35 +48,25 @@ const CompetitionTitle = styled(Heading)`
   ${({ theme }) => theme.mediaQueries.md} {
     -webkit-text-stroke-width: 2.5px;
     font-size: 42px;
+    max-width: 60%;
   }
 `
 
 interface FinishedCompetitionBannerProps {
   title: string
-  imgSrc: string | StaticImageData
+  imgSrc: string
   background: string
-  to: string
 }
 
-const FinishedCompetitionBanner: React.FC<FinishedCompetitionBannerProps> = ({ title, imgSrc, background, to }) => {
-  const { isDesktop } = useMatchBreakpoints()
-
+const FinishedCompetitionBanner: React.FC<FinishedCompetitionBannerProps> = ({ title, imgSrc, background }) => {
   return (
     <Wrapper background={background}>
-      <NextLinkFromReactRouter to={to}>
-        <Flex justifyContent="space-between">
-          <LeftWrapper>
-            <CompetitionTitle>{title}</CompetitionTitle>
-          </LeftWrapper>
-          <RightWrapper>
-            {isDesktop ? (
-              <Image src={imgSrc} width={300} height={200} />
-            ) : (
-              <Image className="mobile" src={imgSrc} width={190} height="100%" />
-            )}
-          </RightWrapper>
-        </Flex>
-      </NextLinkFromReactRouter>
+      <LeftWrapper>
+        <CompetitionTitle>{title}</CompetitionTitle>
+      </LeftWrapper>
+      <RightWrapper>
+        <img src={imgSrc} alt={title} />
+      </RightWrapper>
     </Wrapper>
   )
 }

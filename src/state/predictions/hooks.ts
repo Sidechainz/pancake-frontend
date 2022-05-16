@@ -1,10 +1,8 @@
 import { useEffect, useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import { isAddress } from 'utils'
-import useLocalDispatch from 'contexts/LocalRedux/useLocalDispatch'
-import useSelector from 'contexts/LocalRedux/useSelector'
-import { FetchStatus } from 'config/constants/types'
-
-import { PredictionsState, PredictionUser } from '../types'
+import { useAppDispatch } from 'state'
+import { State } from '../types'
 import { fetchAddressResult } from '.'
 import {
   getRoundsByCloseOracleIdSelector,
@@ -39,39 +37,39 @@ export const useGetIsClaimable = (epoch) => {
 }
 
 export const useIsHistoryPaneOpen = () => {
-  return useSelector((state: PredictionsState) => state.isHistoryPaneOpen)
+  return useSelector((state: State) => state.predictions.isHistoryPaneOpen)
 }
 
 export const useIsChartPaneOpen = () => {
-  return useSelector((state: PredictionsState) => state.isChartPaneOpen)
+  return useSelector((state: State) => state.predictions.isChartPaneOpen)
 }
 
 export const useChartView = () => {
-  return useSelector((state: PredictionsState) => state.chartView)
+  return useSelector((state: State) => state.predictions.chartView)
 }
 
 export const useGetCurrentEpoch = () => {
-  return useSelector((state: PredictionsState) => state.currentEpoch)
+  return useSelector((state: State) => state.predictions.currentEpoch)
 }
 
 export const useGetIntervalSeconds = () => {
-  return useSelector((state: PredictionsState) => state.intervalSeconds)
+  return useSelector((state: State) => state.predictions.intervalSeconds)
 }
 
 export const useGetPredictionsStatus = () => {
-  return useSelector((state: PredictionsState) => state.status)
+  return useSelector((state: State) => state.predictions.status)
 }
 
 export const useGetHistoryFilter = () => {
-  return useSelector((state: PredictionsState) => state.historyFilter)
+  return useSelector((state: State) => state.predictions.historyFilter)
 }
 
 export const useGetHasHistoryLoaded = () => {
-  return useSelector((state: PredictionsState) => state.hasHistoryLoaded)
+  return useSelector((state: State) => state.predictions.hasHistoryLoaded)
 }
 
 export const useGetCurrentHistoryPage = () => {
-  return useSelector((state: PredictionsState) => state.currentHistoryPage)
+  return useSelector((state: State) => state.predictions.currentHistoryPage)
 }
 
 export const useGetMinBetAmount = () => {
@@ -79,15 +77,15 @@ export const useGetMinBetAmount = () => {
 }
 
 export const useGetBufferSeconds = () => {
-  return useSelector((state: PredictionsState) => state.bufferSeconds)
+  return useSelector((state: State) => state.predictions.bufferSeconds)
 }
 
 export const useGetIsFetchingHistory = () => {
-  return useSelector((state: PredictionsState) => state.isFetchingHistory)
+  return useSelector((state: State) => state.predictions.isFetchingHistory)
 }
 
 export const useGetHistory = () => {
-  return useSelector((state: PredictionsState) => state.history)
+  return useSelector((state: State) => state.predictions.history)
 }
 
 /**
@@ -98,33 +96,33 @@ export const useGetCurrentRoundCloseTimestamp = () => {
 }
 
 // Leaderboard
-export const useGetLeaderboardLoadingState = (): FetchStatus => {
-  return useSelector((state: PredictionsState) => state.leaderboard.loadingState)
+export const useGetLeaderboardLoadingState = () => {
+  return useSelector((state: State) => state.predictions.leaderboard.loadingState)
 }
 
 export const useGetLeaderboardResults = () => {
-  return useSelector((state: PredictionsState) => state.leaderboard.results)
+  return useSelector((state: State) => state.predictions.leaderboard.results)
 }
 
 export const useGetLeaderboardFilters = () => {
-  return useSelector((state: PredictionsState) => state.leaderboard.filters)
+  return useSelector((state: State) => state.predictions.leaderboard.filters)
 }
 
 export const useGetLeaderboardSkip = () => {
-  return useSelector((state: PredictionsState) => state.leaderboard.skip)
+  return useSelector((state: State) => state.predictions.leaderboard.skip)
 }
 
 export const useGetLeaderboardHasMoreResults = () => {
-  return useSelector((state: PredictionsState) => state.leaderboard.hasMoreResults)
+  return useSelector((state: State) => state.predictions.leaderboard.hasMoreResults)
 }
 
 export const useGetAddressResult = (account: string) => {
-  return useSelector((state: PredictionsState) => state.leaderboard.addressResults[account])
+  return useSelector((state: State) => state.predictions.leaderboard.addressResults[account])
 }
 
-export const useGetOrFetchLeaderboardAddressResult = (account: string): PredictionUser => {
+export const useGetOrFetchLeaderboardAddressResult = (account: string) => {
   const addressResult = useGetAddressResult(account)
-  const dispatch = useLocalDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const address = isAddress(account)
@@ -138,31 +136,6 @@ export const useGetOrFetchLeaderboardAddressResult = (account: string): Predicti
   return addressResult
 }
 
-export const useGetSelectedAddress = (): string => {
-  return useSelector((state: PredictionsState) => state.leaderboard.selectedAddress)
-}
-
-// Because Modal Component is rendered outside the Prediction Page contexts
-// We have to pass local state as props instead of retrieving directly in component
-export const useStatModalProps = (account?: string) => {
-  const selectedAddress = useGetSelectedAddress()
-  const address = account || selectedAddress
-  const result = useGetOrFetchLeaderboardAddressResult(address)
-  const leaderboardLoadingState = useGetLeaderboardLoadingState()
-
-  return {
-    address,
-    result,
-    leaderboardLoadingState,
-  }
-}
-
-export const useCollectWinningModalProps = () => {
-  const isLoadingHistory = useGetIsFetchingHistory()
-  const history = useGetHistory()
-
-  return {
-    isLoadingHistory,
-    history,
-  }
+export const useGetSelectedAddress = () => {
+  return useSelector((state: State) => state.predictions.leaderboard.selectedAddress)
 }

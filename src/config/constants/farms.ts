@@ -43,48 +43,6 @@ const farms: SerializedFarmConfig[] = [
   },
   //    * V3 by order of release (some may be out of PID order due to multiplier boost)
   {
-    pid: 100,
-    lpSymbol: 'METIS-BNB LP',
-    lpAddresses: {
-      97: '',
-      56: '0x69AFe59e88614501c3fDEb7480f12DBA0A414032',
-    },
-    token: serializedTokens.metis,
-    quoteToken: serializedTokens.wbnb,
-  },
-  {
-    pid: 99,
-    lpSymbol: 'XCN-BNB LP',
-    lpAddresses: {
-      97: '',
-      56: '0xF01eD80d46759c0cf6A3e9c66856017d81284962',
-    },
-    token: serializedTokens.xcn,
-    quoteToken: serializedTokens.wbnb,
-  },
-  {
-    pid: 38,
-    v1pid: 386,
-    lpSymbol: 'HOTCROSS-BNB LP',
-    lpAddresses: {
-      97: '',
-      56: '0xf23bad605e94de0e3b60c9718a43a94a5af43915',
-    },
-    token: serializedTokens.hotcross,
-    quoteToken: serializedTokens.wbnb,
-  },
-  {
-    pid: 94,
-    v1pid: 525,
-    lpSymbol: 'WZRD-BUSD LP',
-    lpAddresses: {
-      97: '',
-      56: '0xee456d906a38e10680c9d157FFf143390e9681bA',
-    },
-    token: serializedTokens.wzrd,
-    quoteToken: serializedTokens.busd,
-  },
-  {
     pid: 98,
     lpSymbol: 'GAL-BNB LP',
     lpAddresses: {
@@ -113,6 +71,7 @@ const farms: SerializedFarmConfig[] = [
     },
     token: serializedTokens['8pay'],
     quoteToken: serializedTokens.busd,
+    isCommunity: true,
   },
   {
     pid: 93,
@@ -124,6 +83,19 @@ const farms: SerializedFarmConfig[] = [
     },
     token: serializedTokens.happy,
     quoteToken: serializedTokens.wbnb,
+    isCommunity: true,
+  },
+  {
+    pid: 38,
+    v1pid: 386,
+    lpSymbol: 'HOTCROSS-BNB LP',
+    lpAddresses: {
+      97: '',
+      56: '0xf23bad605e94de0e3b60c9718a43a94a5af43915',
+    },
+    token: serializedTokens.hotcross,
+    quoteToken: serializedTokens.wbnb,
+    isCommunity: true,
   },
   {
     pid: 95,
@@ -134,6 +106,17 @@ const farms: SerializedFarmConfig[] = [
     },
     token: serializedTokens.abnbc,
     quoteToken: serializedTokens.wbnb,
+  },
+  {
+    pid: 94,
+    v1pid: 525,
+    lpSymbol: 'WZRD-BUSD LP',
+    lpAddresses: {
+      97: '',
+      56: '0xee456d906a38e10680c9d157FFf143390e9681bA',
+    },
+    token: serializedTokens.wzrd,
+    quoteToken: serializedTokens.busd,
   },
   {
     pid: 92,

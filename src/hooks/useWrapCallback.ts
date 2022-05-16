@@ -50,10 +50,7 @@ export default function useWrapCallback(
                   const txReceipt = await callWithGasPrice(wbnbContract, 'deposit', undefined, {
                     value: `0x${inputAmount.raw.toString(16)}`,
                   })
-                  addTransaction(txReceipt, {
-                    summary: `Wrap ${inputAmount.toSignificant(6)} BNB to WBNB`,
-                    type: 'wrap',
-                  })
+                  addTransaction(txReceipt, { summary: `Wrap ${inputAmount.toSignificant(6)} BNB to WBNB` })
                 } catch (error) {
                   console.error('Could not deposit', error)
                 }

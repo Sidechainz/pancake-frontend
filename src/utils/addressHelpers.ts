@@ -38,19 +38,15 @@ export const getPointCenterIfoAddress = () => {
 export const getBunnySpecialAddress = () => {
   return getAddress(addresses.bunnySpecial)
 }
-export const getTradingCompetitionAddressEaster = () => {
-  return getAddress(addresses.tradingCompetitionEaster)
+export const getTradingCompetitionAddress = () => {
+  return getAddress(addresses.tradingCompetition)
 }
-export const getTradingCompetitionAddressFanToken = () => {
-  return getAddress(addresses.tradingCompetitionFanToken)
+export const getTradingCompetitionAddressV2 = () => {
+  return getAddress(addresses.tradingCompetitionV2)
 }
 
 export const getTradingCompetitionAddressMobox = () => {
   return getAddress(addresses.tradingCompetitionMobox)
-}
-
-export const getTradingCompetitionAddressMoD = () => {
-  return getAddress(addresses.tradingCompetitionMoD)
 }
 
 export const getEasterNftAddress = () => {
@@ -67,7 +63,9 @@ export const getVaultPoolAddress = (vaultKey: VaultKey) => {
 export const getCakeVaultAddress = () => {
   return getAddress(addresses.cakeVault)
 }
-
+export const getPredictionsAddress = () => {
+  return getAddress(addresses.predictions)
+}
 export const getChainlinkOracleAddress = () => {
   return getAddress(addresses.chainlinkOracle)
 }
