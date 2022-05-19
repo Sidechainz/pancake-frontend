@@ -289,7 +289,7 @@ exports[`renders correctly 1`] = `
 }
 
 .c29 {
-  color: #7A6EAA;
+  color: #e47418;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
@@ -310,7 +310,7 @@ exports[`renders correctly 1`] = `
 }
 
 .c68 {
-  color: #1FC7D4;
+  color: #eb3858;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
@@ -318,7 +318,7 @@ exports[`renders correctly 1`] = `
 }
 
 .c72 {
-  color: #1FC7D4;
+  color: #eb3858;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
@@ -353,7 +353,7 @@ exports[`renders correctly 1`] = `
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
-  fill: #7A6EAA;
+  fill: #e47418;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -374,7 +374,7 @@ exports[`renders correctly 1`] = `
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
-  fill: #7A6EAA;
+  fill: #e47418;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
@@ -451,7 +451,7 @@ exports[`renders correctly 1`] = `
   align-items: center;
   border: 0;
   background: transparent;
-  color: #7A6EAA;
+  color: #e47418;
   cursor: pointer;
   font-weight: 400;
   display: -webkit-box;
@@ -702,11 +702,11 @@ exports[`renders correctly 1`] = `
 }
 
 .c77:focus + .c78 {
-  box-shadow: 0px 0px 0px 1px #7645D9,0px 0px 0px 4px rgba(118,69,217,0.6);
+  box-shadow: 0px 0px 0px 1px #6591cd,0px 0px 0px 4px rgba(118,69,217,0.6);
 }
 
 .c77:hover + .c78:not(:disabled):not(:checked) {
-  box-shadow: 0px 0px 0px 1px #7645D9,0px 0px 0px 4px rgba(118,69,217,0.6);
+  box-shadow: 0px 0px 0px 1px #6591cd,0px 0px 0px 4px rgba(118,69,217,0.6);
 }
 
 .c76 {
@@ -762,7 +762,7 @@ exports[`renders correctly 1`] = `
   font-size: 12px;
   padding: 0 8px;
   background-color: transparent;
-  color: #1FC7D4;
+  color: #eb3858;
   box-shadow: none;
 }
 
@@ -819,7 +819,7 @@ exports[`renders correctly 1`] = `
   height: 48px;
   padding: 0 24px;
   background-color: transparent;
-  color: #1FC7D4;
+  color: #eb3858;
   box-shadow: none;
   width: sm;
   height: sm;
@@ -878,7 +878,7 @@ exports[`renders correctly 1`] = `
   height: 48px;
   padding: 0 24px;
   background-color: transparent;
-  color: #1FC7D4;
+  color: #eb3858;
   box-shadow: none;
 }
 
@@ -934,7 +934,7 @@ exports[`renders correctly 1`] = `
   transition: background-color 0.2s,opacity 0.2s;
   height: 32px;
   padding: 0 16px;
-  background-color: #1FC7D4;
+  background-color: #eb3858;
   color: white;
 }
 
@@ -1002,7 +1002,7 @@ exports[`renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #7A6EAA;
+  color: #e47418;
   font-size: 16px;
   font-weight: 400;
   padding: 0 16px;
@@ -1024,7 +1024,7 @@ exports[`renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #7A6EAA;
+  color: #e47418;
   font-size: 16px;
   font-weight: 400;
   padding: 0 16px;
@@ -1055,7 +1055,7 @@ exports[`renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #7A6EAA;
+  color: #e47418;
   font-size: 16px;
   font-weight: 400;
   padding: 0 16px;
@@ -1086,7 +1086,7 @@ exports[`renders correctly 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #7A6EAA;
+  color: #e47418;
   font-size: 16px;
   font-weight: 400;
   padding: 4px 4px 0px 4px;
@@ -1862,7 +1862,7 @@ exports[`renders correctly 1`] = `
                     />
                     <stop
                       offset="1"
-                      stop-color="#1FC7D4"
+                      stop-color="#eb3858"
                     />
                   </lineargradient>
                 </defs>
@@ -3037,7 +3037,7 @@ exports[`renders correctly 1`] = `
                           />
                           <stop
                             offset="1"
-                            stop-color="#1FC7D4"
+                            stop-color="#eb3858"
                           />
                         </lineargradient>
                       </defs>

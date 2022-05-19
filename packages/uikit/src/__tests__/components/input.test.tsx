@@ -24,19 +24,19 @@ it("renders correctly", () => {
     }
 
     .c0::-webkit-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c0::-moz-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c0:-ms-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c0::placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c0:disabled {
@@ -47,7 +47,7 @@ it("renders correctly", () => {
     }
 
     .c0:focus:not(:disabled) {
-      box-shadow: 0px 0px 0px 1px #7645D9,0px 0px 0px 4px rgba(118,69,217,0.6);
+      box-shadow: 0px 0px 0px 1px #6591cd,0px 0px 0px 4px rgba(118,69,217,0.6);
     }
 
     <input

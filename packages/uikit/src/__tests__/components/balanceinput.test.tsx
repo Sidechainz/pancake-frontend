@@ -31,7 +31,7 @@ it("renders correctly", () => {
     }
 
     .c5 {
-      color: #7A6EAA;
+      color: #e47418;
       font-size: 12px;
       font-weight: 400;
       line-height: 1.5;
@@ -55,19 +55,19 @@ it("renders correctly", () => {
     }
 
     .c3::-webkit-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3::-moz-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3:-ms-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3::placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3:disabled {
@@ -78,7 +78,7 @@ it("renders correctly", () => {
     }
 
     .c3:focus:not(:disabled) {
-      box-shadow: 0px 0px 0px 1px #7645D9,0px 0px 0px 4px rgba(118,69,217,0.6);
+      box-shadow: 0px 0px 0px 1px #6591cd,0px 0px 0px 4px rgba(118,69,217,0.6);
     }
 
     .c0 {
@@ -100,19 +100,19 @@ it("renders correctly", () => {
     }
 
     .c4::-webkit-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4::-moz-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4:-ms-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4::placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4:focus:not(:disabled) {
@@ -191,7 +191,7 @@ it("renders correctly with unit prop", () => {
     }
 
     .c7 {
-      color: #7A6EAA;
+      color: #e47418;
       font-size: 12px;
       font-weight: 400;
       line-height: 1.5;
@@ -215,19 +215,19 @@ it("renders correctly with unit prop", () => {
     }
 
     .c3::-webkit-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3::-moz-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3:-ms-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3::placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3:disabled {
@@ -238,13 +238,13 @@ it("renders correctly with unit prop", () => {
     }
 
     .c3:focus:not(:disabled) {
-      box-shadow: 0px 0px 0px 1px #7645D9,0px 0px 0px 4px rgba(118,69,217,0.6);
+      box-shadow: 0px 0px 0px 1px #6591cd,0px 0px 0px 4px rgba(118,69,217,0.6);
     }
 
     .c6 {
       margin-left: 4px;
       text-align: right;
-      color: #7A6EAA;
+      color: #e47418;
       white-space: nowrap;
     }
 
@@ -267,19 +267,19 @@ it("renders correctly with unit prop", () => {
     }
 
     .c4::-webkit-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4::-moz-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4:-ms-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4::placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4:focus:not(:disabled) {
@@ -370,7 +370,7 @@ it("renders correctly with unit prop and switchEditingUnits", () => {
       -webkit-align-self: center;
       -ms-flex-item-align: center;
       align-self: center;
-      fill: #7A6EAA;
+      fill: #e47418;
       -webkit-flex-shrink: 0;
       -ms-flex-negative: 0;
       flex-shrink: 0;
@@ -384,7 +384,7 @@ it("renders correctly with unit prop and switchEditingUnits", () => {
     }
 
     .c7 {
-      color: #7A6EAA;
+      color: #e47418;
       font-size: 12px;
       font-weight: 400;
       line-height: 1.5;
@@ -408,19 +408,19 @@ it("renders correctly with unit prop and switchEditingUnits", () => {
     }
 
     .c3::-webkit-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3::-moz-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3:-ms-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3::placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c3:disabled {
@@ -431,7 +431,7 @@ it("renders correctly with unit prop and switchEditingUnits", () => {
     }
 
     .c3:focus:not(:disabled) {
-      box-shadow: 0px 0px 0px 1px #7645D9,0px 0px 0px 4px rgba(118,69,217,0.6);
+      box-shadow: 0px 0px 0px 1px #6591cd,0px 0px 0px 4px rgba(118,69,217,0.6);
     }
 
     .c9 {
@@ -466,7 +466,7 @@ it("renders correctly with unit prop and switchEditingUnits", () => {
       height: 32px;
       padding: 0 16px;
       background-color: transparent;
-      color: #1FC7D4;
+      color: #eb3858;
       box-shadow: none;
     }
 
@@ -503,7 +503,7 @@ it("renders correctly with unit prop and switchEditingUnits", () => {
     .c6 {
       margin-left: 4px;
       text-align: right;
-      color: #7A6EAA;
+      color: #e47418;
       white-space: nowrap;
     }
 
@@ -526,19 +526,19 @@ it("renders correctly with unit prop and switchEditingUnits", () => {
     }
 
     .c4::-webkit-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4::-moz-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4:-ms-input-placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4::placeholder {
-      color: #7A6EAA;
+      color: #e47418;
     }
 
     .c4:focus:not(:disabled) {
