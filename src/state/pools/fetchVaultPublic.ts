@@ -1,60 +1,67 @@
 import BigNumber from 'bignumber.js'
+import { convertSharesToVvs } from 'views/Pools/helpers'
 import { multicallv2 } from 'utils/multicall'
-import cakeVaultAbi from 'config/abi/cakeVaultV2.json'
-import { getCakeVaultAddress } from 'utils/addressHelpers'
+import vvsVaultAbi from 'config/abi/vvsVault.json'
+import { getVvsVaultAddress } from 'utils/addressHelpers'
 import { BIG_ZERO } from 'utils/bigNumber'
-import { getCakeContract } from 'utils/contractHelpers'
 
-const cakeVaultV2 = getCakeVaultAddress()
-const cakeContract = getCakeContract()
-export const fetchPublicVaultData = async (cakeVaultAddress = cakeVaultV2) => {
+export const fetchPublicVaultData = async () => {
   try {
-    const calls = ['getPricePerFullShare', 'totalShares', 'totalLockedAmount'].map((method) => ({
-      address: cakeVaultAddress,
+    const calls = [
+      'getPricePerFullShare',
+      'totalShares',
+      'calculateHarvestVVSRewards',
+      'calculateTotalPendingVVSRewards',
+    ].map((method) => ({
+      address: getVvsVaultAddress(),
       name: method,
     }))
 
-    const [[sharePrice], [shares], totalLockedAmount] = await multicallv2(cakeVaultAbi, calls, {
-      requireSuccess: false,
-    })
+    const [[sharePrice], [shares], [estimatedVvsBountyReward], [totalPendingVvsHarvest]] = await multicallv2(
+      vvsVaultAbi,
+      calls,
+    )
 
     const totalSharesAsBigNumber = shares ? new BigNumber(shares.toString()) : BIG_ZERO
-    const totalLockedAmountAsBigNumber = totalLockedAmount ? new BigNumber(totalLockedAmount[0].toString()) : BIG_ZERO
     const sharePriceAsBigNumber = sharePrice ? new BigNumber(sharePrice.toString()) : BIG_ZERO
-    const totalCakeInVault = await cakeContract.balanceOf(cakeVaultV2)
+    const totalVvsInVaultEstimate = convertSharesToVvs(totalSharesAsBigNumber, sharePriceAsBigNumber)
     return {
       totalShares: totalSharesAsBigNumber.toJSON(),
-      totalLockedAmount: totalLockedAmountAsBigNumber.toJSON(),
       pricePerFullShare: sharePriceAsBigNumber.toJSON(),
-      totalCakeInVault: new BigNumber(totalCakeInVault.toString()).toJSON(),
+      totalVvsInVault: totalVvsInVaultEstimate.vvsAsBigNumber.toJSON(),
+      estimatedVvsBountyReward: new BigNumber(estimatedVvsBountyReward.toString()).toJSON(),
+      totalPendingVvsHarvest: new BigNumber(totalPendingVvsHarvest.toString()).toJSON(),
     }
   } catch (error) {
     return {
       totalShares: null,
-      totalLockedAmount: null,
       pricePerFullShare: null,
-      totalCakeInVault: null,
+      totalVvsInVault: null,
+      estimatedVvsBountyReward: null,
+      totalPendingVvsHarvest: null,
     }
   }
 }
 
-export const fetchVaultFees = async (cakeVaultAddress = cakeVaultV2) => {
+export const fetchVaultFees = async () => {
   try {
-    const calls = ['performanceFee', 'withdrawFee', 'withdrawFeePeriod'].map((method) => ({
-      address: cakeVaultAddress,
+    const calls = ['performanceFee', 'callFee', 'withdrawFee', 'withdrawFeePeriod'].map((method) => ({
+      address: getVvsVaultAddress(),
       name: method,
     }))
 
-    const [[performanceFee], [withdrawalFee], [withdrawalFeePeriod]] = await multicallv2(cakeVaultAbi, calls)
+    const [[performanceFee], [callFee], [withdrawalFee], [withdrawalFeePeriod]] = await multicallv2(vvsVaultAbi, calls)
 
     return {
       performanceFee: performanceFee.toNumber(),
+      callFee: callFee.toNumber(),
       withdrawalFee: withdrawalFee.toNumber(),
       withdrawalFeePeriod: withdrawalFeePeriod.toNumber(),
     }
   } catch (error) {
     return {
       performanceFee: null,
+      callFee: null,
       withdrawalFee: null,
       withdrawalFeePeriod: null,
     }

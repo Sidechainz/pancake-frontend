@@ -6,8 +6,8 @@ import { DeserializedPool } from 'state/types'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
 import useGetTopFarmsByApr from 'views/Home/hooks/useGetTopFarmsByApr'
 import useGetTopPoolsByApr from 'views/Home/hooks/useGetTopPoolsByApr'
-import { vaultPoolConfig } from 'config/constants/pools'
-import { useVaultApy } from 'hooks/useVaultApy'
+// import { vaultPoolConfig } from 'config/constants/pools'
+// import { useVaultApy } from 'hooks/useVaultApy'
 import TopFarmPool from './TopFarmPool'
 import RowHeading from './RowHeading'
 
@@ -31,7 +31,7 @@ const FarmsPoolsRow = () => {
   const { observerRef, isIntersecting } = useIntersectionObserver()
   const { topFarms } = useGetTopFarmsByApr(isIntersecting)
   const { topPools } = useGetTopPoolsByApr(isIntersecting)
-  const { lockedApy } = useVaultApy()
+  // const { lockedApy } = useVaultApy()
 
   const timer = useRef<ReturnType<typeof setTimeout>>(null)
   const isLoaded = topFarms[0] && topPools[0]
@@ -54,7 +54,11 @@ const FarmsPoolsRow = () => {
 
   const getPoolText = (pool: DeserializedPool) => {
     if (pool.vaultKey) {
-      return vaultPoolConfig[pool.vaultKey].name
+      return t('Auto VVS')
+    }
+
+    if (pool.sousId === 0) {
+      return t('Manual VVS')
     }
 
     return t('Stake %stakingSymbol% - Earn %earningSymbol%', {
@@ -100,7 +104,7 @@ const FarmsPoolsRow = () => {
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 title={topPool && getPoolText(topPool)}
-                percentage={topPool?.sousId === 0 ? +lockedApy : topPool?.apr}
+                percentage={topPool?.apr}
                 index={index}
                 isApy={topPool?.sousId === 0}
                 visible={!showFarms}

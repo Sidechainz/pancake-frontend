@@ -1,4 +1,4 @@
-import { ChainId, Pair, Token } from '@pancakeswap/sdk'
+import { ChainId, Pair, Token } from 'vvs-sdk'
 import { differenceInDays } from 'date-fns'
 import flatMap from 'lodash/flatMap'
 import farms from 'config/constants/farms'
@@ -7,7 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CHAIN_ID } from 'config/constants/networks'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from 'config/constants'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { useOfficialsAndUserAddedTokens } from 'hooks/Tokens'
+// import { useOfficialsAndUserAddedTokens } from 'hooks/Tokens'
+import { useAllTokens } from 'hooks/Tokens'
 import { AppDispatch, AppState } from '../../index'
 import {
   addSerializedPair,
@@ -438,7 +439,7 @@ export function toV2LiquidityToken([tokenA, tokenB]: [Token, Token]): Token {
  */
 export function useTrackedTokenPairs(): [Token, Token][] {
   const { chainId } = useActiveWeb3React()
-  const tokens = useOfficialsAndUserAddedTokens()
+  const tokens = useAllTokens()
 
   // pinned pairs
   const pinnedPairs = useMemo(() => (chainId ? PINNED_PAIRS[chainId] ?? [] : []), [chainId])

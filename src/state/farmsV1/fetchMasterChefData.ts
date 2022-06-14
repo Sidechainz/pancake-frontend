@@ -3,11 +3,11 @@ import chunk from 'lodash/chunk'
 import { multicallv2 } from 'utils/multicall'
 import { SerializedFarmConfig } from '../../config/constants/types'
 import { SerializedFarm } from '../types'
-import { getMasterChefV1Address } from '../../utils/addressHelpers'
-import { getMasterchefV1Contract } from '../../utils/contractHelpers'
+import { getMasterChefAddress } from '../../utils/addressHelpers'
+import { getMasterchefContract } from '../../utils/contractHelpers'
 
-const masterChefAddress = getMasterChefV1Address()
-const masterChefContract = getMasterchefV1Contract()
+const masterChefAddress = getMasterChefAddress()
+const masterChefContract = getMasterchefContract()
 
 export const fetchMasterChefFarmPoolLength = async () => {
   const poolLength = await masterChefContract.poolLength()

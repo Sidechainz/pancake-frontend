@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { Token } from '@pancakeswap/sdk'
+import { Token } from 'vvs-sdk'
 
 export type TranslatableText =
   | string
@@ -10,8 +10,8 @@ export type TranslatableText =
       }
     }
 export interface Address {
-  97?: string
-  56: string
+  338?: string
+  25: string
 }
 
 export interface SerializedToken {
@@ -21,7 +21,6 @@ export interface SerializedToken {
   symbol?: string
   name?: string
   projectLink?: string
-  logoURI?: string
 }
 
 export enum PoolIds {
@@ -49,9 +48,6 @@ export interface Ifo {
   articleUrl: string
   campaignId: string
   tokenOfferingPrice: number
-  description?: string
-  twitterUrl?: string
-  telegramUrl?: string
   version: number
   [PoolIds.poolBasic]?: IfoPoolInfo
   [PoolIds.poolUnlimited]: IfoPoolInfo
@@ -62,11 +58,10 @@ export enum PoolCategory {
   'CORE' = 'Core',
   'BINANCE' = 'Binance', // Pools using native BNB behave differently than pools using a token
   'AUTO' = 'Auto',
-}
+} // FIXME pool category
 
 interface FarmConfigBaseProps {
   pid: number
-  v1pid?: number
   lpSymbol: string
   lpAddresses: Address
   multiplier?: string
@@ -97,7 +92,6 @@ interface PoolConfigBaseProps {
   harvest?: boolean
   isFinished?: boolean
   enableEmergencyWithdraw?: boolean
-  version?: number
 }
 
 export interface SerializedPoolConfig extends PoolConfigBaseProps {
@@ -144,9 +138,20 @@ export type Campaign = {
 }
 
 export type PageMeta = {
-  title: string
+  title?: string
   description?: string
   image?: string
+  canonical?: string
+  ogImageUrl?: string
+  siteName?: string
+}
+
+export type OpenGraphMeta = {
+  title: string
+  description: string
+  canonical: string
+  ogImageUrl: string
+  siteName: string
 }
 
 export enum LotteryStatus {
@@ -224,6 +229,17 @@ export interface ConnectedBidder {
   isWhitelisted: boolean
   bidderData?: Bidder
 }
+
+export interface UserHarvestedResponse {
+  users: UserHarvestedRecord[]
+}
+
+export interface UserHarvestedRecord {
+  id?: string
+  totalClaimAmount?: number,
+  totalVVSVaultProfit?: number
+}
+
 
 export enum FetchStatus {
   Idle = 'IDLE',

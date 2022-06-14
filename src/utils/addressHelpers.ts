@@ -1,7 +1,6 @@
-import { ChainId } from '@pancakeswap/sdk'
+import { ChainId } from 'vvs-sdk'
 import addresses from 'config/constants/contracts'
 import { Address } from 'config/constants/types'
-import { VaultKey } from 'state/types'
 
 export const getAddress = (address: Address): string => {
   const chainId = process.env.NEXT_PUBLIC_CHAIN_ID
@@ -10,9 +9,6 @@ export const getAddress = (address: Address): string => {
 
 export const getMasterChefAddress = () => {
   return getAddress(addresses.masterChef)
-}
-export const getMasterChefV1Address = () => {
-  return getAddress(addresses.masterChefV1)
 }
 export const getMulticallAddress = () => {
   return getAddress(addresses.multiCall)
@@ -23,8 +19,8 @@ export const getLotteryV2Address = () => {
 export const getPancakeProfileAddress = () => {
   return getAddress(addresses.pancakeProfile)
 }
-export const getPancakeBunniesAddress = () => {
-  return getAddress(addresses.pancakeBunnies)
+export const getPancakeRabbitsAddress = () => {
+  return getAddress(addresses.pancakeRabbits)
 }
 export const getBunnyFactoryAddress = () => {
   return getAddress(addresses.bunnyFactory)
@@ -41,27 +37,11 @@ export const getBunnySpecialAddress = () => {
 export const getTradingCompetitionAddress = () => {
   return getAddress(addresses.tradingCompetition)
 }
-export const getTradingCompetitionAddressV2 = () => {
-  return getAddress(addresses.tradingCompetitionV2)
-}
-
-export const getTradingCompetitionAddressMobox = () => {
-  return getAddress(addresses.tradingCompetitionMobox)
-}
-
 export const getEasterNftAddress = () => {
   return getAddress(addresses.easterNft)
 }
-
-export const getVaultPoolAddress = (vaultKey: VaultKey) => {
-  if (!vaultKey) {
-    return null
-  }
-  return getAddress(addresses[vaultKey])
-}
-
-export const getCakeVaultAddress = () => {
-  return getAddress(addresses.cakeVault)
+export const getVvsVaultAddress = () => {
+  return getAddress(addresses.vvsVault)
 }
 export const getPredictionsAddress = () => {
   return getAddress(addresses.predictions)
@@ -78,24 +58,6 @@ export const getBunnySpecialPredictionAddress = () => {
 export const getBunnySpecialLotteryAddress = () => {
   return getAddress(addresses.bunnySpecialLottery)
 }
-export const getBunnySpecialXmasAddress = () => {
-  return getAddress(addresses.bunnySpecialXmas)
-}
 export const getFarmAuctionAddress = () => {
   return getAddress(addresses.farmAuction)
-}
-export const getAnniversaryAchievement = () => {
-  return getAddress(addresses.AnniversaryAchievement)
-}
-export const getGalaxyNFTClaimingAddress = () => {
-  return getAddress(addresses.galaxyNftClaiming)
-}
-export const getNftMarketAddress = () => {
-  return getAddress(addresses.nftMarket)
-}
-export const getNftSaleAddress = () => {
-  return getAddress(addresses.nftSale)
-}
-export const getPancakeSquadAddress = () => {
-  return getAddress(addresses.pancakeSquad)
 }

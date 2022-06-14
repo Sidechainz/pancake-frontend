@@ -6,7 +6,7 @@ import Container from 'components/Layout/Container'
 import { PageMeta } from 'components/Layout/Page'
 import { useTranslation } from 'contexts/Localization'
 import Hero from './components/Hero'
-import { swapSectionData, earnSectionData, cakeSectionData } from './components/SalesSection/data'
+import { swapSectionData, earnSectionData, } from './components/SalesSection/data'
 import MetricsSection from './components/MetricsSection'
 import SalesSection from './components/SalesSection'
 import WinSection from './components/WinSection'
@@ -93,7 +93,7 @@ const Home: React.FC = () => {
             <WedgeTopLeft />
           </InnerWedgeWrapper>
         </OuterWedgeWrapper>
-        <SalesSection {...swapSectionData(t)} />
+        
       </PageSection>
       <PageSection
         innerProps={{ style: HomeSectionContainerStyles }}
@@ -106,7 +106,7 @@ const Home: React.FC = () => {
             <WedgeTopRight />
           </InnerWedgeWrapper>
         </OuterWedgeWrapper>
-        <SalesSection {...earnSectionData(t)} />
+        
         <FarmsPoolsRow />
       </PageSection>
       <PageSection
@@ -127,7 +127,7 @@ const Home: React.FC = () => {
         index={2}
         hasCurvedDivider={false}
       >
-        <SalesSection {...cakeSectionData(t)} />
+        
         <CakeDataRow />
       </PageSection>
       <PageSection
