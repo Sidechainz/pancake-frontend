@@ -7,34 +7,7 @@
   "plugins": ["lodash"],
   "extends": ["@pancakeswap/eslint-config-pancake", "plugin:react/jsx-runtime", "plugin:@next/next/recommended"],
   "rules": {
-    // "import/no-unresolved": 0,
-    "react/jsx-props-no-spreading": "off",
-    "react/prop-types": 0,
-    "import/prefer-default-export": "off",
-    "import/no-default-export": "error",
-    // "import/no-unresolved": 0,
-    // "no-underscore-dangle": ["error", { "allow": ["__typename"] }],
-    // "@typescript-eslint/no-unused-vars": [2, { "args": "none" }],
-    "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".jsx"] }],
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
-      }
-   ],
-   "spaced-comment": [
-    "error",
-    "always",
-    {
-      "line": {
-        "markers": ["/"]
-      }
-    }
-  ],
+    "import/no-unresolved": 0,
     "no-console": ["warn", { "allow": ["info", "warn", "error", "debug"] }],
     "no-plusplus": 0,
     "prefer-destructuring": ["warn", { "object": true, "array": false }],
@@ -58,17 +31,11 @@
     "radix": 0,
     "import/no-extraneous-dependencies": 0,
     "jsx-a11y/media-has-caption": 0,
-    "@typescript-eslint/no-unused-vars": "off",
-    "react/react-in-jsx-scope": "off",
     // Exchange
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state", "memo"] }],
     "react/require-default-props": 0,
     "no-nested-ternary": 0,
-    "max-classes-per-file": 0,
+    "max-classes-per-file": 0
     // End temporary rules
-    "react/default-props-match-prop-types": [1],
-    "react/jsx-no-bind": [1],
-    "react/no-unused-prop-types": [1],
-    "import/no-unresolved": "off"
   }
 }
